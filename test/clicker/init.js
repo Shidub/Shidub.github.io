@@ -443,7 +443,7 @@ function newGame() {
                 },
                 locked: true
             },
-            Rubysmith: {
+            rubysmith: {
                 name: "Rubysmith",
                 label: "Rubysmith",
                 description: function () { return "Specialized worker who excels in the art of getting <b>Ruby</b> from mines. Each Rubysmith will supply <b>" + this.resourceGain.RubyP.base + " Ruby Progress per second</b>, but cost <b>" + Math.abs(this.resourceGain.stone.base) + " Stone per second</b> and <b>" + Math.abs(this.resourceGain.wheat.base) + " Wheat per second</b>."; },
@@ -479,7 +479,7 @@ function newGame() {
             miller: {
                 name: "Miller",
                 label: "Miller",
-                description: function () { return "Somewhat of a jack-of-all-trades, millers are crafty workers providing their own aspecy of the economy. Each Miller provides you with <b>" + this.resourceGain.waterP.base + " Water Progress per second</b> and <b>" + this.resourceGain.wheatP.base + " Wheat Progress per second</b>, but cost <b>" + Math.abs(this.resourceGain.woodP.base) + " Wood Progress per second</b>."; },
+                description: function () { return "Somewhat of a jack-of-all-trades, millers are crafty workers providing their own aspecy of the economy. Each Miller provides you with <b>" + this.resourceGain.waterP.base + " Water Progress per second</b> and <b>" + this.resourceGain.wheatP.base + " Wheat Progress per second</b>, but cost <b>" + Math.abs(this.resourceGain.wood1P.base) + " Wood Progress per second</b>."; },
                 current: 0,
                 free: 0,
                 resourceGain: {
@@ -2714,13 +2714,13 @@ function newGame() {
             upgSilversmith: {
                 name: "upgSilversmith",
                 label: "Silversmith",
-                description: function () { return "Allows you to hire <b>Silversmiths</b>, who will build up <b>Silver Progress</b> for you. Time to harness this new resource."; },
+                description: function () { return "Allows you to hire <b>Silversmiths and Rubysmiths</b>, who will build up <b>Silver and Ruby Progress</b> for you. Time to harness this new resource."; },
                 resourceCost: {
                     iron: {
                         base: 300
                     }
                 },
-                effect: function () { unlock("silversmith", "trdSilver", "upgEconomics"); },
+                effect: function () { unlock("silversmith", "rubysmith", "trdSilver", "upgEconomics"); },
                 locked: true,
                 bought: false
             },
