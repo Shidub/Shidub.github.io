@@ -450,6 +450,7 @@ function newGame() {
                     if (game.upgrades.upgDiamondStorage2.level > 1) unlock("upgRevolutionAge");
                 }
             },
+            /*
             rubysmith: {
                 name: "Rubysmith",
                 label: "Rubysmith",
@@ -483,6 +484,7 @@ function newGame() {
                 },
                 locked: true
             },
+            */
             miller: {
                 name: "Miller",
                 label: "Miller",
