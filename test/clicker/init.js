@@ -258,7 +258,7 @@ function newGame() {
                 description: "A rare gem of great value. Though its stunnings aesthetic properties are key to its popularity, it may find its proper use yet with a bit of work.",
                 current: 0,
                 min: 0,
-                max: 1000,
+                max: 100,
                 clickGain: 1,
                 isActive: false,
                 locked: true
@@ -268,7 +268,7 @@ function newGame() {
                 label: "Ruby Progress",
                 current: 0,
                 min: 0,
-                max: 10000,
+                max: 100,
                 parent: {
                     ruby: {
                         gain: 50
