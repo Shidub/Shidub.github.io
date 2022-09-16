@@ -463,7 +463,7 @@ function newGame() {
                     wheat: {
                         base: -0.2
                     },
-                    silverP: {
+                    rubyP: {
                         base: 1
                     }
                 },
