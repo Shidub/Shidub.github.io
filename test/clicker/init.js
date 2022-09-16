@@ -443,6 +443,13 @@ function newGame() {
                 },
                 locked: true
             },
+            effect: function () {
+                upgradeWorkerRate("silversmith", this.rate);
+                if (this.level == this.maxLevel) {
+                    upgradeWorkerRate("jewelry", this.maxRate);
+                    if (game.upgrades.upgDiamondStorage2.level > 1) unlock("upgRevolutionAge");
+                }
+            },
             rubysmith: {
                 name: "Rubysmith",
                 label: "Rubysmith",
@@ -3532,1675 +3539,1685 @@ function newGame() {
                         rate: 1.25
                     }
                 },
-                upgRubywork: {
-                    name: "upgRubywork",
-                    label: "Rubywork",
-                    description: function () {
-                        var desc = "Your increasing knowledge towards and expert handiwork out of Ruby veins prove useful. Each <b>Rubysmith</b> increases their production by <b>" + this.rate + " Ruby Progress per second</b>.";
-                        if (this.level == this.maxLevel) desc += " Each <b>Gemmer</b> also gains an additional <b>" + this.maxRate + " Ruby per second</b>.";
-                        return desc;
-                    },
-                    rate: 1,
-                    maxRate: 0.1,
-                    level: 1,
-                    maxLevel: 5,
-                    resourceCost: {
-                        wood: {
-                            base: 12000,
-                            rate: 1.25
-                        },
-                        stone: {
-                            base: 15000,
-                            rate: 1.25
-                        },
-                        iron: {
-                            base: 6000,
-                            rate: 1.25
-                        },
-                        diamond: {
-                            base: 15,
-                            rate: 1.25
-                        }
-                    },
-                    effect: function () {
-                        upgradeWorkerRate("rubysmith", this.rate);
-                        if (this.level == this.maxLevel) {
-                            upgradeWorkerRate("gemmer", this.maxRate);
-                            if (game.upgrades.upgDiamondStorage2.level > 1) unlock("upgRevolutionAge");
-                        }
-                    },
-                    locked: true,
-                    bought: false
+                effect: function () {
+                    upgradeWorkerRate("silversmith", this.rate);
+                    if (this.level == this.maxLevel) {
+                        upgradeWorkerRate("jewelry", this.maxRate);
+                        if (game.upgrades.upgDiamondStorage2.level > 1) unlock("upgRevolutionAge");
+                    }
                 },
-                upgClarity: {
-                    name: "upgClarity",
-                    label: "Clarity",
-                    description: function () { return "Your wisdom grows with each passing moment. Increases your resources gathered when completing a <b>Progress Bar</b> by <b>5%</b>. Also allows you to start building <b>Extractors</b> to pull <b>Diamonds</b> from the earth."; },
-                    rate: 0.05,
-                    resourceCost: {
-                        water: {
-                            base: 50000
-                        },
-                        diamond: {
-                            base: 500
-                        }
-                    },
-                    effect: function () { upgradePlayerParentGain(this.rate); unlock("extractor", "upgMining2", "upgDiamondStorage"); },
-                    locked: true,
-                    bought: false
-                },
-                upgMining2: {
-                    name: "upgMining2",
-                    label: "Mining II",
-                    description: function () { return "Your mining technology now allows your <b>Miners</b> to gather <b>Diamond</b>! Each miner will start digging for <b>" + this.rate + " Diamond Progress per second</b>."; },
-                    rate: 1.5,
-                    resourceCost: {
-                        wood: {
-                            base: 50000
-                        },
-                        silver: {
-                            base: 800
-                        },
-                        diamond: {
-                            base: 250
-                        }
-                    },
-                    effect: function () { addWorkerRate("miner", "diamondP", this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                upgDiamondStorage: {
-                    name: "upgDiamondStorage",
-                    label: "Diamond Storage",
-                    description: function () { return "The peak of storage technology. Upgrades the maximum capacity of <b>Silver</b> by <b>+" + this.maxRate + "</b> and <b>Diamond</b> by <b>+" + this.rate + "</b>."; },
-                    rate: 250,
-                    maxRate: 1500,
-                    level: 1,
-                    maxLevel: 6,
-                    resourceCost: {
-                        diamond: {
-                            base: 125,
-                            rate: 1.25
-                        }
-                    },
-                    effect: function () {
-                        upgradeMaxValue("silver", this.maxRate);
-                        upgradeMaxValue("diamond", this.rate);
-                        unlock("upgBetterTaxes");
-                        if (this.level >= this.maxLevel) unlock("upgDiamondStorage2");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                upgDiamondStorage2: {
-                    name: "upgDiamondStorage2",
-                    label: "Diamond Stor. II",
-                    fullLabel: "Diamond Storage II",
-                    description: function () { return "Extend the peak of storage technology to other resources. Upgrades the maximum capacity of <b>Water</b> by <b>+" + prettify(this.waterMax, 0, true) + "</b>, <b>Wood</b> by <b>+" + prettify(this.woodMax, 0, true) + "</b> and <b>Wheat</b> by <b>+" + prettify(this.wheatMax, 0, true) + "</b>."; },
-                    waterMax: 50000,
-                    woodMax: 10000,
-                    wheatMax: 25000,
-                    level: 1,
-                    maxLevel: 4,
-                    resourceCost: {
-                        silver: {
-                            base: 1000,
-                            rate: 1.3
-                        },
-                        diamond: {
-                            base: 250,
-                            rate: 1.5
-                        }
-                    },
-                    effect: function () {
-                        upgradeMaxValue("water", this.waterMax);
-                        upgradeMaxValue("wood", this.woodMax);
-                        upgradeMaxValue("wheat", this.wheatMax);
-                        if (game.upgrades.upgSilverwork.bought) unlock("upgRevolutionAge");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                upgPrestigePoint2: {
-                    name: "upgPrestigePoint2",
-                    label: "Prestige Point",
-                    description: function () { return "Through cunning trade and craftmanship, you reap the rewards of your past hard work. This upgrade grants you <b>1 Prestige Point</b> for your next colony."; },
-                    resourceCost: {
-                        diamond: {
-                            base: 1500
-                        }
-                    },
-                    goldCostBase: 5000,
-                    effect: function () { addPrestigePoints(1); },
-                    locked: true,
-                    bought: false
-                },
-                upgBetterTaxes: {
-                    name: "upgBetterTaxes",
-                    label: "Better Taxes",
-                    description: function () { return "Lower the upkeep of your buildings when collecting taxes from your population. Your <b>Tax</b> trade cost per building is reduced by <b>" + this.rate + " Gold</b>."; },
-                    rate: 1,
-                    level: 1,
-                    maxLevel: 2,
-                    resourceCost: {
-                        iron: {
-                            base: 10000,
-                            rate: 1.5
-                        },
-                        silver: {
-                            base: 2000,
-                            rate: 1.5
-                        }
-                    },
-                    effect: function () { upgradeTradeRate("trdTax", this.rate, true); },
-                    locked: true,
-                    bought: false
-                },
-                upgStoneAge: {
-                    name: "upgStoneAge",
-                    label: "Stone Age",
-                    description: function () {
-                        return "Enter the <b>" + this.label + "</b>! Each Age gives you one <b>Age Advancement Point</b> which allows you to research special upgrades. Advancing to a new age also unlocks Major Upgrades and other bonuses that drastically improve your life. The <b>Stone Age</b> will lead to these changes:<b><br />" +
-                            "1 Advancement Point<br />New Research: Mining<br />+" + this.rate + " Wood Progress per second for each Lumberjack</b>";
-                    },
-                    type: "age",
-                    rate: 0.1,
-                    effect: function () {
-                        advanceAge(this, 1);
-                        upgradeWorkerRate("lumberjack", this.rate);
-                        unlock("upgMining", "upgWoodCart", "advancements");
-                        tutorialMessage("advancements");
-                        tutorialMessage("ages");
-                        achieve("achCaveman");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                upgFeudalAge: {
-                    name: "upgFeudalAge",
-                    label: "Feudal Age",
-                    description: function () {
-                        return "Enter the <b>" + this.label + "</b>! Your workers now form a caste of self-ruling organizations which you oversee. This represents a major leap in innovation and will lead to several changes such as:<b>1 Advancement Point<br /><br />New Resource: Iron<br />3 Additional Buildings<br />+"
-                            + this.waterRate + " Water Progress per second for each Water Fetcher<br />+" + this.woodRate + " Wood Progress per second for each Lumberjack<br />+" + this.stoneRate + " Stone Progress per second for each Miner<br />+" + this.waterMax + " Water Storage Capacity<br />+" + this.woodMax + " Wood Storage Capacity<br />+" + this.stoneMax + " Stone Storage Capacity</b>";
-                    },
-                    type: "age",
-                    waterRate: 0.5,
-                    woodRate: 0.4,
-                    stoneRate: 0.5,
-                    waterMax: 500,
-                    woodMax: 350,
-                    stoneMax: 120,
-                    resourceCost: {
-                        water: {
-                            base: 200
-                        },
-                        wood: {
-                            base: 100
-                        },
-                        stone: {
-                            base: 25
-                        }
-                    },
-                    effect: function () {
-                        advanceAge(this, 1);
-                        unlock("iron", "sawmill", "stoneQuarry", "foundry", "upgStoneTap", "upgCasingWater", "upgCasingWood", "upgCasingStone", "upgCasingIron", "upgDeepDigging", "upgMonarchy", "upgVassalism", "upgWaterTap2", "upgWoodTap2", "advMonasticism", "ldrCicero");
-                        upgradeWorkerRate("waterFetcher", this.waterRate);
-                        upgradeWorkerRate("lumberjack", this.woodRate);
-                        upgradeWorkerRate("miner", this.stoneRate);
-                        upgradeMaxValue("water", this.waterMax);
-                        upgradeMaxValue("wood", this.woodMax);
-                        upgradeMaxValue("stone", this.stoneMax);
-                        tutorialMessage("upgrades");
-                        achieve("achLord");
-                    },
-                    canUnlock: function () { return game.upgrades.upgMasonry.bought && game.upgrades.upgWoodenStorage.bought; },
-                    locked: true,
-                    bought: false
-                },
-                upgDarkAge: {
-                    name: "upgDarkAge",
-                    label: "Dark Age",
-                    description: function () {
-                        return "Enter the <b>" + this.label + "</b>! Your population is struck with disease due to overall lack of hygiene. This causes the first economic crisis which you must go through in order to survive. The effects of advancing to this age are negative but lead to better days. The <b>Dark Age</b> will lead to these changes:<b><br />" +
-                            "0 Advancement Point<br />New Building: Grain Mill<br />Major Research: Commerce<br />+" + this.waterMax + "  Maximum Water Progress<br />+" + this.woodMax + " Maximum Wood Progress<br />+" + this.stoneMax + " Maximum Stone Progress<br />+" + this.ironMax + " Maximum Iron Progress<br />+" + this.wheatMax + " Maximum Wheat Progress<br />+" + this.rate + " Maximum Capacity on All Resources</b>";
-                    },
-                    type: "age",
-                    waterMax: 70,
-                    woodMax: 175,
-                    stoneMax: 400,
-                    ironMax: 800,
-                    wheatMax: 15,
-                    rate: 250,
-                    resourceCost: {
-                        water: {
-                            base: 1900
-                        },
-                        wood: {
-                            base: 1700
-                        },
-                        stone: {
-                            base: 700
-                        },
-                        iron: {
-                            base: 150
-                        },
-                        wheat: {
-                            base: 2750
-                        }
-                    },
-                    effect: function () {
-                        advanceAge(this, 0);
-                        unlock("grainMill", "upgWheatTap", "upgCommerce", "upgScarcity", "upgMetalwork", "upgMotivation", "upgStoneStorage", "upgFarmhouses", "upgHarvest", "upgIronBasket", "upgLanterns", "upgWaterTap3", "upgMasonry3", "upgStonework2", "advEcumenism");
-                        upgradeMaxValue("waterP", this.waterMax);
-                        upgradeMaxValue("woodP", this.woodMax);
-                        upgradeMaxValue("stoneP", this.stoneMax);
-                        upgradeMaxValue("ironP", this.ironMax);
-                        upgradeMaxValue("wheatP", this.wheatMax);
-                        upgradeMaxValue("water", this.rate);
-                        upgradeMaxValue("wood", this.rate);
-                        upgradeMaxValue("stone", this.rate);
-                        upgradeMaxValue("iron", this.rate);
-                        upgradeMaxValue("wheat", this.rate);
-                        achieve("achDarkTimes");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                upgRenaissance: {
-                    name: "upgRenaissance",
-                    label: "Renaissance",
-                    description: function () {
-                        return "Enter the <b>Age of " + this.label + "</b>! With the endured hardships, your people develop deeper understanding of the world around them, leading to a revolution in their thinking. The <b>Renaissance</b> will lead to these changes:<b><br />" +
-                            "2 Advancement Points<br />Colonies<br />New Resource: Diamond<br />New Building: Jewelry<br />" + this.waterMax + "  Maximum Water Progress<br />" + this.woodMax + " Maximum Wood Progress<br />" + this.stoneMax + " Maximum Stone Progress<br />" + this.ironMax + " Maximum Iron Progress<br />" + this.wheatMax + " Maximum Wheat Progress<br />" + this.silverMax + " Maximum Silver Progress</b>";
-                    },
-                    type: "age",
-                    waterMax: -20,
-                    woodMax: -100,
-                    stoneMax: -50,
-                    ironMax: -400,
-                    wheatMax: -10,
-                    silverMax: -500,
-                    resourceCost: {
-                        water: {
-                            base: 5000
-                        },
-                        wood: {
-                            base: 3500
-                        },
-                        stone: {
-                            base: 2500
-                        },
-                        iron: {
-                            base: 1000
-                        },
-                        wheat: {
-                            base: 5000
-                        },
-                        silver: {
-                            base: 150
-                        }
-                    },
-                    effect: function () {
-                        advanceAge(this, 2);
-                        unlock("reset", "prestige", "diamond", "trdDiamond", "ruby", "jewelry", "upgSilverTap", "upgPrestigePoint", "upgAqueducts", "upgFineLumber", "upgHeavyMining", "upgBetterFoundries", "upgRestraint", "upgTreeCare", "upgFarmWork", "ldrGutenberg");
-                        upgradeMaxValue("waterP", this.waterMax);
-                        upgradeMaxValue("woodP", this.woodMax);
-                        upgradeMaxValue("stoneP", this.stoneMax);
-                        upgradeMaxValue("ironP", this.ironMax);
-                        upgradeMaxValue("wheatP", this.wheatMax);
-                        upgradeMaxValue("silverP", this.silverMax);
-                        tutorialMessage("prestige");
-                        finishTutorial();
-                        achieve("achScholar");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                upgRevolutionAge: {
-                    name: "upgRevolutionAge",
-                    label: "Age of Revolution",
-                    description: function () {
-                        return "Enter the <b>" + this.label + "</b>! Unrest grows in your population and the people yearn for change. This will come at a cost, but perhaps you can make the endeavour worthwile with some patience. The <b>Age of Revolution</b> will lead to these changes:<b><br />" +
-                            "1 Advancement Point<br />Pumping System passive bonus (+10 Water/sec)<br />10% Worker Cost Increase<br />15% Building Cost Increase<br />Increased Silver Cost of Taxes<br />+" + prettify(this.diamondMax, 0, true) + "  Maximum Diamond Progress</b>";
-                    },
-                    type: "age",
-                    colonies: 1,
-                    diamondMax: 10000,
-                    taxIncrease: 900,
-                    workerIncrease: 0.1,
-                    buildingIncrease: 0.15,
-                    resourceCost: {
-                        water: {
-                            base: 250000
-                        },
-                        wood: {
-                            base: 100000
-                        },
-                        stone: {
-                            base: 50000
-                        },
-                        wheat: {
-                            base: 100000
-                        },
-                        silver: {
-                            base: 10000
-                        },
-                        diamond: {
-                            base: 1500
-                        }
-                    },
-                    effect: function () {
-                        advanceAge(this, 1);
-                        unlock("trdAdvancementPoint2");
-                        achieve("achRebel");
-                        buyPassive(getFromText("psvPumpingSystem"));
-                        upgradeWorkerCost(this.workerIncrease);
-                        upgradeBuildingCost(this.buildingIncrease);
-                        upgradeMaxValue("diamondP", this.diamondMax);
-                        upgradeTradeCost("trdTax", this.taxIncrease, "silver");
-                        upgradeTradeCost("trdPropertyTax", this.taxIncrease, "silver");
-                    },
-                    locked: true,
-                    bought: false
-                }
+                locked: true,
+                bought: false
             },
-            advancements: {
-                advTemperance: {
-                    name: "advTemperance",
-                    label: "Temperance",
-                    parent: "upgStoneAge",
-                    description: function () {
-                        return "Exercising restraint will pay off in the long run. Applies a <b>15%</b> cost reduction on all upgrades. This does not apply to <b>Age Upgrades</b>.";
+            upgRubywork: {
+                name: "upgRubywork",
+                label: "Rubywork",
+                description: function () {
+                    var desc = "Your increasing knowledge towards and expert handiwork out of Ruby veins prove useful. Each <b>Rubysmith</b> increases their production by <b>" + this.rate + " Ruby Progress per second</b>.";
+                    if (this.level == this.maxLevel) desc += " Each <b>Gemmer</b> also gains an additional <b>" + this.maxRate + " Ruby per second</b>.";
+                    return desc;
+                },
+                rate: 1,
+                maxRate: 0.1,
+                level: 1,
+                maxLevel: 5,
+                resourceCost: {
+                    wood: {
+                        base: 12000,
+                        rate: 1.25
                     },
-                    advCost: 1,
-                    rate: -0.15,
-                    effect: function () { upgradeUpgradeCost(this.rate); unlock("ldrAlexander3"); },
-                    locked: true,
-                    bought: false
-                },
-                advFire: {
-                    name: "advFire",
-                    label: "Fire",
-                    parent: "upgStoneAge",
-                    description: function () { return "Major civilizational breakthrough that will grant <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>. This effect compounds with other clicking-related upgrades."; },
-                    advCost: 1,
-                    clickRate: 0.3,
-                    effect: function () { upgradePlayerClickGain(this.clickRate); unlock("ldrAlexander3"); achieve("achLight"); },
-                    locked: true,
-                    bought: false
-                },
-                advWheel: {
-                    name: "advWheel",
-                    label: "Wheel",
-                    parent: "upgStoneAge",
-                    description: function () { return "This wonderful invention will allow you to gather <b>7.5%</b> more resources when completing a <b>Progress Bar</b>. This effect compounds with other upgrades."; },
-                    advCost: 1,
-                    rate: 0.075,
-                    effect: function () { upgradePlayerParentGain(this.rate); unlock("ldrAlexander3");; },
-                    locked: true,
-                    bought: false
-                },
-                advSpear: {
-                    name: "advSpear",
-                    label: "Spear",
-                    parent: "upgStoneAge",
-                    description: function () { return "Through trial and error, you discover a deadly combination of sculpted wood and sharpened stone. Gain <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>."; },
-                    advCost: 1,
-                    clickRate: 0.15,
-                    effect: function () { upgradePlayerClickGain(this.clickRate); unlock("advSword", "ldrLeonidas"); },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advSling: {
-                    name: "advSling",
-                    label: "Sling",
-                    parent: "upgStoneAge",
-                    description: function () { return "Discover a strange device that incentivizes your population in gathering stone. Gain <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>. Your miner will also gather <b>+" + this.rate + " Stone Progress per second</b>."; },
-                    advCost: 1,
-                    rate: 0.5,
-                    clickRate: 0.1,
-                    effect: function () { upgradePlayerClickGain(this.clickRate); upgradeWorkerRate("miner", this.rate); },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advPiety: {
-                    name: "advPiety",
-                    label: "Piety",
-                    parent: "upgFeudalAge",
-                    description: function () { return "Lead the way for your faithful and be rewarded with their devotion. Gain a <b>8%</b> cost reduction to <b>Workers</b>. This effect stacks with other worker cost reductions."; },
-                    advCost: 1,
-                    rate: -0.08,
-                    effect: function () { upgradeWorkerCost(this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advEquestrianism: {
-                    name: "advEquestrianism",
-                    label: "Equestrianism",
-                    parent: "upgFeudalAge",
-                    description: function () { return "Your unparalleled ability to tame nature around you leads to increased benefits. Reduce the amount of <b>Progress</b> required for resources as follows:<b><br />Water: " + this.waterMax + "<br />Wood: " + this.woodMax + "<br />Stone: " + this.stoneMax + "<br />Iron: " + this.ironMax + "</b>"; },
-                    advCost: 1,
-                    waterMax: -5,
-                    woodMax: -10,
-                    stoneMax: -25,
-                    ironMax: -100,
-                    effect: function () {
-                        upgradeMaxValue("waterP", this.waterMax);
-                        upgradeMaxValue("woodP", this.woodMax);
-                        upgradeMaxValue("stoneP", this.stoneMax);
-                        upgradeMaxValue("ironP", this.ironMax);
+                    stone: {
+                        base: 15000,
+                        rate: 1.25
                     },
-                    locked: true,
-                    bought: false
-                },
-                advPrintingPress: {
-                    name: "advPrintingPress",
-                    label: "Printing Press",
-                    parent: "upgFeudalAge",
-                    description: function () { return "This unique invention will not provide immediate benefits to you, but it will pave the way to the future. Unlocks <b>Additional Advancements</b> in the <b>Next Age</b>!"; },
-                    advCost: 1,
-                    effect: function () { unlock("advLiteracy", "advEngineering", "advEvangelism", "advArchitecture"); },
-                    locked: true,
-                    bought: false
-                },
-                advMonasticism: {
-                    name: "advMonasticism",
-                    label: "Monasticism",
-                    parent: "upgFeudalAge",
-                    description: function () {
-                        var desc = "Allow your workers to devote themselves to the pursuit of truth in exchange for various good works. Adds a <b>Monk</b> worker which will provide unique bonuses to your civilization the more you hire.";
-                        if (!this.bought) return desc;
-                        desc += "<br />Your Monks currently provide:<b>";
-                        if (game.workers.monk.current < 25) desc += "<br />No Bonus.";
-                        else desc += "<br />2% Cost Reduction to Buildings.";
-                        if (game.workers.monk.current >= 50) desc += "<br />6% Cumulative Cost Reduction to Churches for Water and Wood.";
-                        desc += "</b>";
-                        return desc;
+                    iron: {
+                        base: 6000,
+                        rate: 1.25
                     },
-                    advCost: 1,
-                    effect: function () { unlock("monk"); },
-                    canUnlock: function () { return game.player.colonies >= 5 && game.upgrades.upgFeudalAge.bought; },
-                    locked: true,
-                    bought: false,
-                    secret: true
+                    diamond: {
+                        base: 15,
+                        rate: 1.25
+                    }
                 },
-                advSword: {
-                    name: "advSword",
-                    label: "Sword",
-                    parent: "upgFeudalAge",
-                    description: function () { return "As metalwork becomes common practice among your population, your propensity for advanced weapons grows. Grants <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>."; },
-                    advCost: 1,
-                    clickRate: 0.2,
-                    effect: function () { upgradePlayerClickGain(this.clickRate); },
-                    locked: true,
-                    bought: false,
-                    secret: true
+                effect: function () {
+                    upgradeWorkerRate("rubysmith", this.rate);
+                    if (this.level == this.maxLevel) {
+                        upgradeWorkerRate("gemmer", this.maxRate);
+                        if (game.upgrades.upgDiamondStorage2.level > 1) unlock("upgRevolutionAge");
+                    }
                 },
-                advFervor: {
-                    name: "advFervor",
-                    label: "Fervor",
-                    parent: "upgDarkAge",
-                    description: function () { return "A steadfast attitude and unwavering resolve can help you brave any storm. Applies a <b>" + prettify(-this.rate * 100, 2) + "%</b> cost reduction to <b>Buildings</b>. This effect stacks with other building cost reductions."; },
-                    advCost: 1,
-                    rate: -0.1,
-                    effect: function () { upgradeBuildingCost(this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advIronWill: {
-                    name: "advIronWill",
-                    label: "Iron Will",
-                    parent: "upgDarkAge",
-                    description: function () { return "Demonstrate your willingness to go on. Your <b>Foundries</b> no longer cost any <b>Stone</b> to operate. This does not affect their current production rate."; },
-                    advCost: 1,
-                    rate: -0.5,
-                    effect: function () { upgradeWorkerRate("foundry", this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advTheology: {
-                    name: "advTheology",
-                    label: "Theology",
-                    parent: "upgDarkAge",
-                    description: function () { return "Propagate your ideals to your population swiftly by appointing chosen preachers to guide the masses. Adds a <b>Church</b> building which will toll your workers but provide resources in exchange."; },
-                    advCost: 1,
-                    effect: function () { unlock("church"); achieve("achTheologian"); },
-                    locked: true,
-                    bought: false
-                },
-                advEcumenism: {
-                    name: "advEcumenism",
-                    label: "Ecumenism",
-                    parent: "upgDarkAge",
-                    description: function () { return "Unite your population in faith through reformations of your doctrines. Provides a passive, permanent gain of <b>+5 Wheat per second</b>."; },
-                    advCost: 1,
-                    effect: function () { buyPassive(getFromText("psvEcumenism")); },
-                    canUnlock: function () { return game.player.colonies >= 8 && game.upgrades.upgDarkAge.bought; },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advLiteracy: {
-                    name: "advLiteracy",
-                    label: "Literacy",
-                    parent: "upgDarkAge",
-                    description: function () { return "Increased literacy rates among your workers allows them to develop more advanced techniques. Gain <b>10%</b> more resources when completing a <b>Progress Bar</b>. This effect stacks with the <b>Wheel</b> advancement."; },
-                    advCost: 1,
-                    rate: 0.1,
-                    effect: function () { upgradePlayerParentGain(this.rate); },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advEngineering: {
-                    name: "advEngineering",
-                    label: "Engineering",
-                    parent: "upgDarkAge",
-                    description: function () { return "After much research, your workers come up with ways to improve your resource generation. Fundamentally redesign your <b>Water Mills</b> to add a cost of <b>" + Math.abs(this.woodMax) + " Wood per second</b> in exchange for a benefit of <b>+" + this.rate + " Water per second</b> each."; },
-                    advCost: 1,
-                    rate: 0.3,
-                    woodMax: -0.1,
-                    effect: function () { upgradeWorkerRate("waterMill", this.rate); addWorkerRate("waterMill", "wood", this.woodMax); },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advLogos: {
-                    name: "advLogos",
-                    label: "Logos",
-                    parent: "upgRenaissance",
-                    description: function () { return "Your use of reason grows through practice of the mind. After shedding their earthly needs, your <b>Miners</b> no longer cost any <b>Water</b> to work at their current rate."; },
-                    advCost: 2,
-                    rate: -0.1,
-                    effect: function () { upgradeWorkerRate("miner", this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advGunpowder: {
-                    name: "advGunpowder",
-                    label: "Gunpowder",
-                    parent: "upgRenaissance",
-                    description: function () { return "A fine black powder that reacts strongly when ignited. Thanks to this technological wonder, <b>50% more resource progress</b> will be granted when <b>clicking to gather a resource</b>. This effect stacks with the <b>Fire</b> advancement."; },
-                    advCost: 2,
-                    rate: 0.5,
-                    effect: function () { upgradePlayerClickGain(this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advSilverMastery: {
-                    name: "advSilverMastery",
-                    label: "Silver Mastery",
-                    parent: "upgRenaissance",
-                    description: function () { return "Total mastery over the art of silverwork allows you to significantly speed up the production of the shiny metal. Decreases the <b>Silver Progress</b> required to extract <b>Silver</b> by <b>" + Math.abs(this.rate) + "!</b>"; },
-                    advCost: 2,
-                    rate: -1000,
-                    effect: function () { upgradeMaxValue("silverP", this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advMathematics: {
-                    name: "advMathematics",
-                    label: "Mathematics",
-                    parent: "upgRenaissance",
-                    description: function () { return "Advanced understanding of mathematical principles begin to arise in your population, paving the way to future improvements.  Applies a <b>20%</b> cost reduction on all upgrades. This does not apply to <b>Age Upgrades</b>."; },
-                    advCost: 2,
-                    rate: -0.2,
-                    effect: function () {
-                        upgradeUpgradeCost(this.rate);
-                        if (game.player.colonies >= 7) unlock("ldrKepler");
-                        else if (game.player.colonies >= 4) unlock("ldrGalileo");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                advMercantilism: {
-                    name: "advMercantilism",
-                    label: "Mercantilism",
-                    parent: "upgRenaissance",
-                    description: function () { return "Major development in commerce allows you to perform <b>Additional Trades</b> to manipulate the market to your advantage."; },
-                    advCost: 2,
-                    effect: function () {
-                        unlock("trdWater2", "trdWood2", "trdStone2", "trdIron2", "trdWheat");
-                        if (game.player.colonies >= 4) unlock("ldrMagellan");
-                    },
-                    locked: true,
-                    bought: false
-                },
-                advEvangelism: {
-                    name: "advEvangelism",
-                    label: "Evangelism",
-                    parent: "upgRenaissance",
-                    description: function () { return "The mass production and distribution of religious texts allows your population to spread their faith greatly, rallying even great figures to your cause. Allows you to hire <b>one additional leader</b>."; },
-                    advCost: 2,
-                    rate: 1,
-                    effect: function () { upgradeMaxLeaders(this.rate); },
-                    canUnlock: function () { return game.leaders.ldrGutenberg.bought && game.advancements.advPrintingPress.bought; },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advArchitecture: {
-                    name: "advArchitecture",
-                    label: "Architecture",
-                    parent: "upgRenaissance",
-                    description: function () { return "Research the lost art of the past to give it a new purpose. Your <b>Sawmills</b> will no longer cost any <b>Water</b> to operate."; },
-                    advCost: 2,
-                    rate: -0.2,
-                    effect: function () { upgradeWorkerRate("sawmill", this.rate); },
-                    canUnlock: function () { return game.leaders.ldrGutenberg.bought && game.advancements.advPrintingPress.bought; },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advValor: {
-                    name: "advValor",
-                    label: "Valor",
-                    parent: "upgRevolutionAge",
-                    description: function () { return "Instill your people with the will and fortitude to fight for what is right. Reduces the cost of all <b>Workers</b>, <b>Buildings</b> and <b>Upgrades</b> by <b>5%</b>."; },
-                    advCost: 3,
-                    rate: -0.05,
-                    effect: function () { upgradeUpgradeCost(this.rate); upgradeWorkerCost(this.rate); upgradeBuildingCost(this.rate); },
-                    locked: true,
-                    bought: false
-                },
-                advNavigation: {
-                    name: "advNavigation",
-                    label: "Navigation",
-                    parent: "upgRevolutionAge",
-                    description: function () { return "Heavily invest in research navigational utilities to aid your bravest of explorers in going further than ever before. Unlocks <b>Additional Advancements</b> at the cost of a passive drain of <b>5 Wood per second</b>."; },
-                    advCost: 3,
-                    effect: function () { buyPassive(getFromText("psvNavigation")); unlock("advDominion", "advSteamEngine"); },
-                    locked: true,
-                    bought: false
-                },
-                advBanking: {
-                    name: "advBanking",
-                    label: "Banking",
-                    parent: "upgRevolutionAge",
-                    description: function () { return "Install a gold-backed monetary system to support the exchange of goods between your population. You will be granted a one-time payment of <b>" + prettify(this.rate, 0, true) + " Gold</b> upon acquiring this advancement."; },
-                    advCost: 3,
-                    rate: 100000,
-                    effect: function () { gainGold(this.rate); achieve("achBanker"); },
-                    locked: true,
-                    bought: false
-                },
-                advIndependence: {
-                    name: "advIndependence",
-                    label: "Independence",
-                    parent: "upgRevolutionAge",
-                    description: function () { return "Declare yourself your own sovereign state. Your self-governance will passively grant you <b>" + this.rate + " Silver per second</b>. Additionally, you will gain <b>+" + this.maxRate + " Advancement Points</b> upon starting your next colony."; },
-                    advCost: 3,
-                    rate: 0.5,
-                    maxRate: 2,
-                    effect: function () { buyPassive(getFromText("psvIndependence")); game.player.nextAdvancementPoints += this.maxRate; unlock("ldrHancock"); },
-                    locked: true,
-                    bought: false
-                },
-                advBrotherhood: {
-                    name: "advBrotherhood",
-                    label: "Brotherhood",
-                    parent: "upgRevolutionAge",
-                    description: function () { return "Drive recruitment campaigns to bolster your number of workers. Immediately acquire <b>" + this.rate + " Ironsmiths</b> and <b>Millers</b> at no cost."; },
-                    advCost: 3,
-                    rate: 20,
-                    effect: function () { buyWorker(getFromText("ironsmith"), this.rate, true); buyWorker(getFromText("miller"), this.rate, true); },
-                    locked: true,
-                    bought: false
-                },
-                advDominion: {
-                    name: "advDominion",
-                    label: "Dominion",
-                    parent: "upgRevolutionAge",
-                    description: function () { return "Fortify the stronghold of your empire in your colonies via various doctrines and guiding principles. Grants you <b>+" + this.rate + " Prestige Point</b> in your next colony."; },
-                    rate: 1,
-                    advCost: 3,
-                    effect: function () { addPrestigePoints(this.rate); },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                },
-                advSteamEngine: {
-                    name: "advSteamEngine",
-                    label: "Steam Engine",
-                    parent: "upgRevolutionAge",
-                    description: function () {
-                        return "This revolutionary piece of versatile machinery will surely help drive your mining industry. Who knows what others uses it could find later on. Increases the resource progress gathering rate of your <b>Miners</b> by <b>+ "
-                            + this.stoneMax + " Stone Progress per second</b>, your <b>Ironsmiths</b> by <b>+" + this.ironMax + " Iron Progress per second</b> and your <b>Silversmiths</b> by <b>+" + this.stoneMax + " Silver Progress per second</b>.";
-                    },
-                    stoneMax: 5,
-                    ironMax: 10,
-                    advCost: 3,
-                    effect: function () { upgradeWorkerRate("miner", this.stoneMax, "stoneP"); upgradeWorkerRate("ironsmith", this.ironMax, "ironP"); upgradeWorkerRate("silversmith", this.stoneMax, "silverP"); },
-                    locked: true,
-                    bought: false,
-                    secret: true
-                }
+                locked: true,
+                bought: false
             },
-            prestiges: {
-                ptgSoftTap: {
-                    name: "ptgSoftTap",
-                    label: "Soft Tap",
-                    type: "active",
-                    description: function () { return "Step by step, you get stronger and manage to carry more resources yourself. Your base clicking power increases by an additional <b>10%</b> for each level."; },
-                    rate: 0.1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    effect: function () { upgradePlayerClickGain(this.rate); },
-                    bought: false
+            upgClarity: {
+                name: "upgClarity",
+                label: "Clarity",
+                description: function () { return "Your wisdom grows with each passing moment. Increases your resources gathered when completing a <b>Progress Bar</b> by <b>5%</b>. Also allows you to start building <b>Extractors</b> to pull <b>Diamonds</b> from the earth."; },
+                rate: 0.05,
+                resourceCost: {
+                    water: {
+                        base: 50000
+                    },
+                    diamond: {
+                        base: 500
+                    }
                 },
-                ptgWaterDancer: {
-                    name: "ptgWaterDancer",
-                    label: "Water Dancer",
-                    type: "active",
-                    description: function () { return "Focus on your mastery of water for increased specialized gains. You get <b>+" + this.rate + " more Water Progress per click</b> per level."; },
-                    rate: 0.5,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    effect: function () { upgradeClickGain("waterP", this.rate); },
-                    bought: false
-                },
-                ptgMechanicalClicker: {
-                    name: "ptgMechanicalClicker",
-                    label: "Mechanical Clicker",
-                    type: "active",
-                    description: function () {
-                        var desc = "This technological wonder will allow you to greatly facilitate resource gathering. Unlocks the ability to <b>Hold the mouse button down</b> in order to <b>Automatically gather</b> any resource.";
-                        if (this.level == 0) desc += " Auto-clicking will occur every <b>400ms</b>.";
-                        else if (this.level == 1) desc += " Auto-clicking rate will increase from every <b>400ms</b> to every <b>300ms</b>.";
-                        else if (this.level == 2) desc += " Auto-clicking rate will increase from every <b>300ms</b> to every <b>200ms</b>.";
-                        else desc += " Auto-clicking occurs every <b>200ms</b>."
-                        return desc;
-                    },
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 3,
-                    requirements: {
-                        ptgSoftTap: 2
-                    },
-                    effect: function (level) {
-                        if (level > 1) game.player.autoClick = 200;
-                        else if (level > 0) game.player.autoClick = 300;
-                        else game.player.autoClick = 400;
-                    },
-                    bought: false
-                },
-                ptgDruidry: {
-                    name: "ptgDruidry",
-                    label: "Druidry",
-                    type: "active",
-                    description: function () { return "Focus on your mastery of the forest for increased specialized gains. You get <b>+" + this.rate + " more Wood Progress per click</b> per level."; },
-                    rate: 1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgSoftTap: 5
-                    },
-                    effect: function () { upgradeClickGain("woodP", this.rate); },
-                    bought: false
-                },
-                ptgHeadStart: {
-                    name: "ptgHeadStart",
-                    label: "Head Start",
-                    type: "active",
-                    description: function () { return "Carry some resources over to your new colonies to drastically speed up the early stage of rebuilding. Provides <b>+" + this.rate + " Water, Wood and Stone</b> for each purchased level."; },
-                    rate: 1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgSoftTap: 5,
-                        ptgWaterDancer: 1
-                    },
-                    effect: function () { gainResource(getFromText("water"), this.rate); gainResource(getFromText("wood"), this.rate); gainResource(getFromText("stone"), this.rate); },
-                    bought: false
-                },
-                ptgFireDancer: {
-                    name: "ptgFireDancer",
-                    label: "Fire Dancer",
-                    type: "active",
-                    description: function () {
-                        var desc = "Attain mastery in the manipulation of fire. Automatically acquires the <b>Fire Advancement</b> for free.";
-                        if (this.level > 0) desc += " Additionally, cumulatively increases the base clicking power upgrade provided by <b>5%</b> for each level.";
-                        return desc;
-                    },
-                    rate: 0.05,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgWaterDancer: 5
-                    },
-                    effect: function (level) {
-                        var adv = game.advancements.advFire;
-                        if (adv.bought && level > 0) {
-                            upgradePlayerClickGain(this.rate);
-                            adv.clickRate += this.rate;
-                        } else {
-                            unlock("advancements", adv.name);
-                            buyAdvancement(adv, true);
-                        }
-                    },
-                    bought: false
-                },
-                ptgLoopClicking: {
-                    name: "ptgLoopClicking",
-                    label: "Loop Clicking",
-                    type: "active",
-                    description: function () { return "Revolution in resource progress tracking. When filling a <b>Resource Progress Bar</b>, instead of being reset to zero, the value past the maximum is <b>carried over</b>. If the bar would be filled more than once by the added value, resources are gathered more than once."; },
-                    ptgCost: 2,
-                    level: 0,
-                    maxLevel: 1,
-                    requirements: {
-                        ptgMechanicalClicker: 3
-                    },
-                    effect: function () { },
-                    bought: false
-                },
-                ptgHarvester: {
-                    name: "ptgHarvester",
-                    label: "Harvester",
-                    type: "active",
-                    description: function () { return "Delve into the forbidden knowledge of agriculture. You get <b>+" + this.rate + " more Wheat Progress per click</b>  per level."; },
-                    rate: 0.5,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgWaterDancer: 1,
-                        ptgDruidry: 3
-                    },
-                    effect: function () { upgradeClickGain("wheatP", this.rate); },
-                    bought: false
-                },
-                ptgSmartTap: {
-                    name: "ptgSmartTap",
-                    label: "Smart Tap",
-                    type: "active",
-                    description: function () { return "The essence of inner strength resides in the wider variety of areas you can improve upon through perseverance. Each level grants you an additional <b>2% Base Click Power</b> as well as <b>1% Progress Completion Multiplier</b>."; },
-                    rate: 0.02,
-                    maxRate: 0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgSoftTap: 7,
-                        ptgHeadStart: 3
-                    },
-                    effect: function () { upgradePlayerClickGain(this.rate); upgradePlayerParentGain(this.maxRate); },
-                    bought: false
-                },
-                ptgWeaponMaster: {
-                    name: "ptgWeaponMaster",
-                    label: "Weapon Master",
-                    type: "active",
-                    description: function () { return "The art of weaponry unfolds itself to you, allowing you greater clicking powers than previously thought possible. Each level unlocks an <b>additional Advancement</b> that affect your <b>Base Click Power</b>."; },
-                    ptgCost: 2,
-                    level: 0,
-                    maxLevel: 2,
-                    requirements: {
-                        ptgSoftTap: 3,
-                        ptgFireDancer: 2
-                    },
-                    effect: function (level) {
-                        if (level <= 0) unlock("advSling");
-                        else unlock("advSpear");
-                    },
-                    bought: false
-                },
-                ptgDoubleClicking: {
-                    name: "ptgDoubleClicking",
-                    label: "Double Clicking",
-                    type: "active",
-                    description: function () {
-                        var desc = "This mysterious artifact will occasionally boost your resource gathering. Will sometimes <b>double</b> the resource progress gathered when you click.";
-                        if (this.level == 0) desc += " Double Clicking will occur every <b>" + this.nextRate + " clicks</b>.";
-                        else if (this.level < 8) desc += " Double Clicking rate will increase from every <b>" + this.rate + " clicks</b> to every <b>" + this.nextRate + " clicks</b>.";
-                        else desc += " Double Clicking rate will occur every <b>" + this.rate + " clicks</b>.";
-                        return desc;
-                    },
-                    ptgCost: 1,
-                    rate: 0,
-                    nextRate: 50,
-                    level: 0,
-                    maxLevel: 8,
-                    requirements: {
-                        ptgSoftTap: 4,
-                        ptgMechanicalClicker: 2
-                    },
-                    effect: function (level) {
-                        this.rate = this.nextRate;
-                        game.player.doubleClick = this.nextRate;
-                        this.nextRate -= (level >= 2 ? 5 : 10);
-                    },
-                    bought: false
-                },
-                ptgMason: {
-                    name: "ptgMason",
-                    label: "Mason",
-                    type: "active",
-                    description: function () { return "Focus on your mastery of the earth for increased specialized gains. You get <b>+" + this.rate + " more Stone Progress per click</b> per level."; },
-                    rate: 2,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgWaterDancer: 2,
-                        ptgHarvester: 2
-                    },
-                    effect: function () { upgradeClickGain("stoneP", this.rate); },
-                    bought: false
-                },
-                ptgLeader: {
-                    name: "ptgLeader",
-                    label: "Leader",
-                    type: "passive",
-                    description: function () { return "Become a mighty leader of men through sheer charisma. Reduces the cost of all <b>Workers</b> by <b>1%</b> (cumulative) for each level purchased."; },
-                    rate: -0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    effect: function () { upgradeWorkerCost(this.rate); },
-                    bought: false
-                },
-                ptgBuilder: {
-                    name: "ptgBuilder",
-                    label: "Builder",
-                    type: "passive",
-                    description: function () { return "Masonry and architecture come naturally to you. Reduces the cost of all <b>Buildings</b> by <b>1%</b> (cumulative) for each level purchased."; },
-                    rate: -0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    effect: function () { upgradeBuildingCost(this.rate); },
-                    bought: false
-                },
-                ptgTaxman: {
-                    name: "ptgTaxman",
-                    label: "Taxman",
-                    type: "passive",
-                    description: function () { return "Each tax exerted on your population passively grants an additional <b>+" + this.rate + " Gold</b> for each level. The gain is added after calculating the final tax amount."; },
-                    rate: 5,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    effect: function () { upgradeTaxPassiveGold(this.rate); },
-                    bought: false
-                },
-                ptgResearch: {
-                    name: "ptgResearch",
-                    label: "Research",
-                    type: "passive",
-                    description: function () {
-                        var desc = "Massively invest in heavy research to prop up every future colony with a significant starting advantage. Reveals and makes available for purchase the basic <b>Advancements</b> tied to the following ages:<b><br />Stone Age";
-                        if (this.level > 0) desc += "<br />Feudal Age";
-                        if (this.level > 1) desc += "<br />Dark Age";
-                        desc += "</b>";
-                        return desc;
-                    },
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 3,
-                    requirements: {
-                        ptgLeader: 5,
-                        ptgBuilder: 5
-                    },
-                    effect: function (level) {
-                        unlock("advancements", "advTemperance", "advFire", "advWheel");
-                        if (level > 0) unlock("advPiety", "advEquestrianism", "advPrintingPress");
-                        if (level > 1) unlock("advFervor", "advIronWill", "advTheology");
-                    },
-                    bought: false
-                },
-                ptgFetching: {
-                    name: "ptgFetching",
-                    label: "Fetching",
-                    type: "passive",
-                    description: function () { return "Inspire even the lowest of workers to devote themselves to the common good. Each <b>Water Fetcher</b> provides an additional <b>+" + this.rate + " Water Progress per second</b> for each level."; },
-                    rate: 0.1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgLeader: 10
-                    },
-                    effect: function () { upgradeWorkerRate("waterFetcher", this.rate); },
-                    bought: false
-                },
-                ptgMilling: {
-                    name: "ptgMilling",
-                    label: "Milling",
-                    type: "passive",
-                    description: function () { return "Sharpen your understanding of overall structures for long-term benefits. Reduces the cumulative cost increase rate of <b>Wood</b> for each <b>Water Mill</b> purchased by <b>3%</b> per level."; },
-                    rate: -0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgBuilder: 10
-                    },
-                    effect: function () { upgradeWorkerCostRate("waterMill", "wood", this.rate); },
-                    bought: false
-                },
-                ptgEconomist: {
-                    name: "ptgEconomist",
-                    label: "Economist",
-                    type: "passive",
-                    description: function () { return "Your long-standing experience of civilization building grants you knowledge of how to maximize revenue. For each level, gain <b>1%</b> more resources every time you complete a <b>Progress Bar</b>."; },
-                    rate: 0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgLeader: 3,
-                        ptgBuilder: 3,
-                        ptgTaxman: 5
-                    },
-                    effect: function () { upgradePlayerParentGain(this.rate); },
-                    bought: false
-                },
-                ptgHeroism: {
-                    name: "ptgHeroism",
-                    label: "Heroism",
-                    type: "passive",
-                    description: function () { return "Your greatness of spirit grows and draws the attention of more important people. Each level invested allows you to hire <b>an additional Leader</b> per colony."; },
-                    rate: 1,
-                    ptgCost: 2,
-                    level: 0,
-                    maxLevel: 2,
-                    requirements: {
-                        ptgLeader: 8,
-                        ptgBuilder: 8,
-                        ptgResearch: 2
-                    },
-                    effect: function () { upgradeMaxLeaders(this.rate); },
-                    bought: false
-                },
-                ptgLumberer: {
-                    name: "ptgLumberer",
-                    label: "Lumberer",
-                    type: "passive",
-                    description: function () { return "Your connections with the people reach far out wide, even to the outskirts of the forest. Each level provides <b>+" + this.rate + " Free Lumberjack</b> to you."; },
-                    rate: 1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgFetching: 3
-                    },
-                    effect: function () { buyWorker("lumberjack", this.rate, true); },
-                    bought: false
-                },
-                ptgEngineer: {
-                    name: "ptgEngineer",
-                    label: "Engineer",
-                    type: "passive",
-                    description: function () {
-                        var desc = "Your growing experience with construction techniques start to reap benefits. The following advancements are made available at the start of each colony:<b><br />Engineering";
-                        if (this.level > 0) desc += "<br />Iron Will";
-                        if (this.level > 1) desc += "<br />Fervor";
-                        if (this.level > 2) desc += " (+2% Effectiveness)";
-                        desc += "</b>";
-                        return desc;
-                    },
-                    rate: 1,
-                    maxRate: -0.02,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 4,
-                    requirements: {
-                        ptgMilling: 3
-                    },
-                    effect: function (level) {
-                        unlock("advancements", "advEngineering");
-                        if (level > 0) unlock("advIronWill");
-                        if (level > 1) unlock("advFervor");
-                        if (level > 2) {
-                            var adv = game.advancements.advFervor;
-                            adv.rate += this.maxRate;
-                            if (adv.bought) upgradeBuildingCost(this.maxRate);
-                        }
-                    },
-                    bought: false
-                },
-                ptgMerchant: {
-                    name: "ptgMerchant",
-                    label: "Merchant",
-                    type: "passive",
-                    description: function () {
-                        var desc = "Your ability to turn a profit from thin air is most impressive. Start each colony with the ability to make the following trades:<b><br />Advancement Point";
-                        if (this.level > 0) desc += "<br />Advancement Point II";
-                        desc += "</b>"
-                        return desc;
-                    },
-                    rate: 1,
-                    ptgCost: 2,
-                    level: 0,
-                    maxLevel: 2,
-                    requirements: {
-                        ptgTaxman: 10,
-                        ptgEconomist: 1
-                    },
-                    effect: function (level) {
-                        if (level <= 0) unlock("trdAdvancementPoint");
-                        else unlock("trdAdvancementPoint", "trdAdvancementPoint2");
-                    },
-                    bought: false
-                },
-                ptgResolve: {
-                    name: "ptgResolve",
-                    label: "Resolve",
-                    type: "passive",
-                    description: function () {
-                        return "Nerves of steel are meant to withstand the storm. For each level, gain an additional <b>2.5%</b> each time a resource progress is completed, at the cost of <b>5%</b> of your base click power. Your current <b>Resolve</b> provides you:<b><br />"
-                            + prettify(this.maxRate * this.level * 100, 2) + "% Progress Completion Multiplier<br />" + prettify(this.rate * this.level * 100, 2) + "% Base Click Power</b>";
-                    },
-                    rate: -0.05,
-                    maxRate: 0.025,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgResearch: 3
-                    },
-                    effect: function () { upgradePlayerClickGain(this.rate); upgradePlayerParentGain(this.maxRate); },
-                    bought: false
-                },
-                ptgWoodMinimalism: {
-                    name: "ptgWoodMinimalism",
-                    label: "Wood Minimalism",
-                    type: "other",
-                    description: function () { return "Reduces the workload of wood gathering through unconventional methods. Each level increases the minimum threshold of <b>Wood Progress</b> by <b>+" + this.rate + "</b>."; },
-                    rate: 1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    effect: function () { upgradeMinValue("woodP", this.rate); },
-                    bought: false
-                },
-                ptgOpportunist: {
-                    name: "ptgOpportunist",
-                    label: "Opportunist",
-                    type: "other",
-                    description: function () { return "A bit of creativity goes a long way. Increases the cost of <b>Workers</b> and <b>Buildings</b> by <b>1%</b> in exchange for <b>2%</b> more resources when completing a progress bar. Cumulates every level."; },
-                    rate: 0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    effect: function () { upgradeWorkerCost(this.rate); upgradeBuildingCost(this.rate); upgradePlayerParentGain(this.rate * 2); },
-                    bought: false
-                },
-                ptgInvestment: {
-                    name: "ptgInvestment",
-                    label: "Investment",
-                    type: "other",
-                    description: function () { return "Temporary setbacks can sometimes result in future profits. Does nothing now, but provides you with <b>+" + this.rate + " Prestige Points</b> in your next colony every level. This effect only applies once."; },
-                    rate: 2,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    effect: function () { addPrestigePoints(this.rate); },
-                    oneTime: true,
-                    bought: false
-                },
-                ptgAdvanced: {
-                    name: "ptgAdvanced",
-                    label: "Advanced",
-                    type: "other",
-                    description: function () { return "Learn from new experiences to grow stronger every time you settle a new colony. Gain <b>" + this.rate + " Advancement Points</b> now and everytime you start a new colony."; },
-                    rate: 1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgInvestment: 3
-                    },
-                    effect: function () { addAdvancementPoints(this.rate); },
-                    bought: false
-                },
-                ptgStoneMinimalism: {
-                    name: "ptgStoneMinimalism",
-                    label: "Stone Minimalism",
-                    type: "other",
-                    description: function () { return "Reduces the workload of stone gathering through unconventional methods. Each level increases the minimum threshold of <b>Stone Progress</b> by <b>+" + this.rate + "</b>."; },
-                    rate: 2,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgWoodMinimalism: 1
-                    },
-                    effect: function () { upgradeMinValue("stoneP", this.rate); },
-                    bought: false
-                },
-                ptgMaverick: {
-                    name: "ptgMaverick",
-                    label: "Maverick",
-                    type: "other",
-                    description: function () { return "Reckless actions can lead to a good outcome with proper insight. Decreases the resources gained when completing a progress bar by <b>1%</b> in exchange of a <b>5%</b> increase in base click power. Cumulates every level."; },
-                    rate: 0.01,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    effect: function () { upgradePlayerParentGain(-this.rate); upgradePlayerClickGain(this.rate * 5); },
-                    bought: false
-                },
-                ptgHasty: {
-                    name: "ptgHasty",
-                    label: "Hasty",
-                    type: "other",
-                    description: function () {
-                        var desc = "No time to waste. For every colony, converts a <b>Prestige Point per level</b> from a future one to a present one. If you have no pending prestige points, the bonus is applied as soon as you acquire one.";
-                        if (this.level > 0) desc += "<br />You currently have <b>" + game.player.convertPrestiges + " Hasty Points</b> unused this colony.";
-                        return desc;
-                    },
-                    rate: 1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgInvestment: 1
-                    },
-                    effect: function () {
-                        if (game.player.nextPrestigePoints >= 1) {
-                            addPrestigePoints(-this.rate);
-                            addPrestigePoints(this.rate, true);
-                        } else {
-                            game.player.convertPrestiges += this.rate;
-                        }
-                    },
-                    bought: false
-                },
-                ptgHoarding: {
-                    name: "ptgHoarding",
-                    label: "Hoarding",
-                    type: "other",
-                    description: function () { return "Some are simply unable to let go of their hard-earned riches. When creating a new colony, keep <b>" + prettify(this.rate * (this.level < this.maxLevel ? this.level + 1 : this.level) * 100, 0, true) + "%</b> of your current amount of <b>Gold</b>." },
-                    rate: 0.1,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 5,
-                    requirements: {
-                        ptgAdvanced: 2
-                    },
-                    effect: function () { upgradePlayerGoldPrestige(this.rate); },
-                    bought: false
-                },
-                ptgIronMinimalism: {
-                    name: "ptgIronMinimalism",
-                    label: "Iron Minimalism",
-                    type: "other",
-                    description: function () { return "Reduces the workload of iron gathering through unconventional methods. Each level increases the minimum threshold of <b>Iron Progress</b> by <b>+" + this.rate + "</b>."; },
-                    rate: 30,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgWoodMinimalism: 4,
-                        ptgStoneMinimalism: 2
-                    },
-                    effect: function () { upgradeMinValue("ironP", this.rate); },
-                    bought: false
-                },
-                ptgHaggler: {
-                    name: "ptgHaggler",
-                    label: "Haggler",
-                    type: "other",
-                    description: function () { return "You become proficient at arguing your way to victory. Reduces the overall cost of <b>Workers</b>, <b>Buildings</b> AND <b>Upgrades</b> by <b>1%</b> at the cost of <b>5%</b> of your base click power. This cumulates every level."; },
-                    rate: -0.01,
-                    maxRate: -0.05,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgOpportunist: 5
-                    },
-                    effect: function () { upgradeWorkerCost(this.rate); upgradeBuildingCost(this.rate); upgradeUpgradeCost(this.rate); upgradePlayerClickGain(this.maxRate); },
-                    bought: false
-                },
-                ptgWisdom: {
-                    name: "ptgWisdom",
-                    label: "Wisdom",
-                    type: "other",
-                    description: function () { return "Your incredibly resilient mind unravels the mysteries of time better than anyone else by now. Cumulatively decreases the cost of <b>Age Upgrades</b> by <b>2%</b> for every level acquired."; },
-                    rate: -0.02,
-                    ptgCost: 1,
-                    level: 0,
-                    maxLevel: 10,
-                    requirements: {
-                        ptgHasty: 5
-                    },
-                    effect: function () { upgradeUpgradeCost(this.rate, true); },
-                    bought: false
-                },
-                ptgColonist: {
-                    name: "ptgColonist",
-                    label: "Colonist",
-                    type: "other",
-                    description: function () { return "Excel in the art of precipitating the development of your colonies. Makes the <b>Dominion</b> advancement available for purchase now and at the start of every colony."; },
-                    ptgCost: 2,
-                    level: 0,
-                    maxLevel: 1,
-                    requirements: {
-                        ptgMaverick: 5,
-                        ptgHoarding: 4
-                    },
-                    effect: function () { unlock("advancements", "advDominion"); },
-                    bought: false
-                }
+                effect: function () { upgradePlayerParentGain(this.rate); unlock("extractor", "upgMining2", "upgDiamondStorage"); },
+                locked: true,
+                bought: false
             },
-            achievements: {
-                achColonist: {
-                    name: "achColonist",
-                    label: "Colonist",
-                    description: function () { return "You ventured and built your first the <b>Colony</b>."; },
-                    points: 2,
-                    hidden: true,
-                    achieved: false
+            upgMining2: {
+                name: "upgMining2",
+                label: "Mining II",
+                description: function () { return "Your mining technology now allows your <b>Miners</b> to gather <b>Diamond</b>! Each miner will start digging for <b>" + this.rate + " Diamond Progress per second</b>."; },
+                rate: 1.5,
+                resourceCost: {
+                    wood: {
+                        base: 50000
+                    },
+                    silver: {
+                        base: 800
+                    },
+                    diamond: {
+                        base: 250
+                    }
                 },
-                achPioneer: {
-                    name: "achPioneer",
-                    label: "Pioneer",
-                    description: function () { return "Your influence and power knows no bounds. You built <b>5 Colonies</b> without breaking a sweat."; },
-                    points: 2,
-                    hidden: true,
-                    achieved: false
+                effect: function () { addWorkerRate("miner", "diamondP", this.rate); },
+                locked: true,
+                bought: false
+            },
+            upgDiamondStorage: {
+                name: "upgDiamondStorage",
+                label: "Diamond Storage",
+                description: function () { return "The peak of storage technology. Upgrades the maximum capacity of <b>Silver</b> by <b>+" + this.maxRate + "</b> and <b>Diamond</b> by <b>+" + this.rate + "</b>."; },
+                rate: 250,
+                maxRate: 1500,
+                level: 1,
+                maxLevel: 6,
+                resourceCost: {
+                    diamond: {
+                        base: 125,
+                        rate: 1.25
+                    }
                 },
-                achLuminary: {
-                    name: "achLuminary",
-                    label: "Luminary",
-                    description: function () { return "All men shall bow to you. You extended the might of your empire to a total of <b>10 Colonies</b>."; },
-                    points: 3,
-                    hidden: true,
-                    achieved: false
+                effect: function () {
+                    upgradeMaxValue("silver", this.maxRate);
+                    upgradeMaxValue("diamond", this.rate);
+                    unlock("upgBetterTaxes");
+                    if (this.level >= this.maxLevel) unlock("upgDiamondStorage2");
                 },
-                achPatrician: {
-                    name: "achPatrician",
-                    label: "Patrician",
-                    description: function () { return "The breadth and reach of your influence is immeasurable. Your empire now spawns a sprawling total of <b>30 Colonies</b>."; },
-                    points: 3,
-                    hidden: true,
-                    achieved: false
+                locked: true,
+                bought: false
+            },
+            upgDiamondStorage2: {
+                name: "upgDiamondStorage2",
+                label: "Diamond Stor. II",
+                fullLabel: "Diamond Storage II",
+                description: function () { return "Extend the peak of storage technology to other resources. Upgrades the maximum capacity of <b>Water</b> by <b>+" + prettify(this.waterMax, 0, true) + "</b>, <b>Wood</b> by <b>+" + prettify(this.woodMax, 0, true) + "</b> and <b>Wheat</b> by <b>+" + prettify(this.wheatMax, 0, true) + "</b>."; },
+                waterMax: 50000,
+                woodMax: 10000,
+                wheatMax: 25000,
+                level: 1,
+                maxLevel: 4,
+                resourceCost: {
+                    silver: {
+                        base: 1000,
+                        rate: 1.3
+                    },
+                    diamond: {
+                        base: 250,
+                        rate: 1.5
+                    }
                 },
-                achCaveman: {
-                    name: "achCaveman",
-                    label: "Caveman",
-                    description: function () { return "You reached the <b>Stone Age</b> after banging some stones together. Very impressive."; },
-                    points: 0,
-                    hidden: true,
-                    achieved: false
+                effect: function () {
+                    upgradeMaxValue("water", this.waterMax);
+                    upgradeMaxValue("wood", this.woodMax);
+                    upgradeMaxValue("wheat", this.wheatMax);
+                    if (game.upgrades.upgSilverwork.bought) unlock("upgRevolutionAge");
                 },
-                achLord: {
-                    name: "achLord",
-                    label: "Lord",
-                    description: function () { return "You reached the <b>Feudal Age</b>. Mercy mild upon your kingdom."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
+                locked: true,
+                bought: false
+            },
+            upgPrestigePoint2: {
+                name: "upgPrestigePoint2",
+                label: "Prestige Point",
+                description: function () { return "Through cunning trade and craftmanship, you reap the rewards of your past hard work. This upgrade grants you <b>1 Prestige Point</b> for your next colony."; },
+                resourceCost: {
+                    diamond: {
+                        base: 1500
+                    }
                 },
-                achDarkTimes: {
-                    name: "achDarkTimes",
-                    label: "Dark Times",
-                    fullLabel: "Dark Times Ahead...",
-                    description: function () { return "Oh brave one, you have reached the <b>Dark Age</b>. Best of luck in this upcoming trial."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
+                goldCostBase: 5000,
+                effect: function () { addPrestigePoints(1); },
+                locked: true,
+                bought: false
+            },
+            upgBetterTaxes: {
+                name: "upgBetterTaxes",
+                label: "Better Taxes",
+                description: function () { return "Lower the upkeep of your buildings when collecting taxes from your population. Your <b>Tax</b> trade cost per building is reduced by <b>" + this.rate + " Gold</b>."; },
+                rate: 1,
+                level: 1,
+                maxLevel: 2,
+                resourceCost: {
+                    iron: {
+                        base: 10000,
+                        rate: 1.5
+                    },
+                    silver: {
+                        base: 2000,
+                        rate: 1.5
+                    }
                 },
-                achScholar: {
-                    name: "achScholar",
-                    label: "Scholar",
-                    description: function () { return "You lead your realm to the age of the <b>Renaissance</b>. You should be proud."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
+                effect: function () { upgradeTradeRate("trdTax", this.rate, true); },
+                locked: true,
+                bought: false
+            },
+            upgStoneAge: {
+                name: "upgStoneAge",
+                label: "Stone Age",
+                description: function () {
+                    return "Enter the <b>" + this.label + "</b>! Each Age gives you one <b>Age Advancement Point</b> which allows you to research special upgrades. Advancing to a new age also unlocks Major Upgrades and other bonuses that drastically improve your life. The <b>Stone Age</b> will lead to these changes:<b><br />" +
+                        "1 Advancement Point<br />New Research: Mining<br />+" + this.rate + " Wood Progress per second for each Lumberjack</b>";
                 },
-                achRebel: {
-                    name: "achRebel",
-                    label: "Rebel",
-                    description: function () { return "You reached the <b>Age of Revolution</b>. Go forth and forge your own destiny."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
+                type: "age",
+                rate: 0.1,
+                effect: function () {
+                    advanceAge(this, 1);
+                    upgradeWorkerRate("lumberjack", this.rate);
+                    unlock("upgMining", "upgWoodCart", "advancements");
+                    tutorialMessage("advancements");
+                    tutorialMessage("ages");
+                    achieve("achCaveman");
                 },
-                achBeginner: {
-                    name: "achBeginner",
-                    label: "Beginner",
-                    description: function () { return "The only way to craft your empire, click by click. Reach <b>100 Clicks</b>."; },
-                    progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 100), 0, true) + "/100"; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
+                locked: true,
+                bought: false
+            },
+            upgFeudalAge: {
+                name: "upgFeudalAge",
+                label: "Feudal Age",
+                description: function () {
+                    return "Enter the <b>" + this.label + "</b>! Your workers now form a caste of self-ruling organizations which you oversee. This represents a major leap in innovation and will lead to several changes such as:<b>1 Advancement Point<br /><br />New Resource: Iron<br />3 Additional Buildings<br />+"
+                        + this.waterRate + " Water Progress per second for each Water Fetcher<br />+" + this.woodRate + " Wood Progress per second for each Lumberjack<br />+" + this.stoneRate + " Stone Progress per second for each Miner<br />+" + this.waterMax + " Water Storage Capacity<br />+" + this.woodMax + " Wood Storage Capacity<br />+" + this.stoneMax + " Stone Storage Capacity</b>";
                 },
-                achApprentice: {
-                    name: "achApprentice",
-                    label: "Apprentice",
-                    description: function () { return "Are you getting somewhere yet? Reach <b>1000 Clicks</b>."; },
-                    progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 1000), 0, true) + "/1000"; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
+                type: "age",
+                waterRate: 0.5,
+                woodRate: 0.4,
+                stoneRate: 0.5,
+                waterMax: 500,
+                woodMax: 350,
+                stoneMax: 120,
+                resourceCost: {
+                    water: {
+                        base: 200
+                    },
+                    wood: {
+                        base: 100
+                    },
+                    stone: {
+                        base: 25
+                    }
                 },
-                achJourneyman: {
-                    name: "achJourneyman",
-                    label: "Journeyman",
-                    description: function () { return "The real clicker is the friends we make along the way. Reach <b>10 000 Clicks</b>."; },
-                    progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 10000), 0, true) + "/10K"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
+                effect: function () {
+                    advanceAge(this, 1);
+                    unlock("iron", "sawmill", "stoneQuarry", "foundry", "upgStoneTap", "upgCasingWater", "upgCasingWood", "upgCasingStone", "upgCasingIron", "upgDeepDigging", "upgMonarchy", "upgVassalism", "upgWaterTap2", "upgWoodTap2", "advMonasticism", "ldrCicero");
+                    upgradeWorkerRate("waterFetcher", this.waterRate);
+                    upgradeWorkerRate("lumberjack", this.woodRate);
+                    upgradeWorkerRate("miner", this.stoneRate);
+                    upgradeMaxValue("water", this.waterMax);
+                    upgradeMaxValue("wood", this.woodMax);
+                    upgradeMaxValue("stone", this.stoneMax);
+                    tutorialMessage("upgrades");
+                    achieve("achLord");
                 },
-                achExpert: {
-                    name: "achExpert",
-                    label: "Expert",
-                    description: function () { return "No amount of prestige points can cure your carpal tunnel syndrome. Reach <b>100 000 Clicks</b>."; },
-                    progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 100000), 0, true) + "/100K"; },
-                    points: 2,
-                    hidden: false,
-                    achieved: false
+                canUnlock: function () { return game.upgrades.upgMasonry.bought && game.upgrades.upgWoodenStorage.bought; },
+                locked: true,
+                bought: false
+            },
+            upgDarkAge: {
+                name: "upgDarkAge",
+                label: "Dark Age",
+                description: function () {
+                    return "Enter the <b>" + this.label + "</b>! Your population is struck with disease due to overall lack of hygiene. This causes the first economic crisis which you must go through in order to survive. The effects of advancing to this age are negative but lead to better days. The <b>Dark Age</b> will lead to these changes:<b><br />" +
+                        "0 Advancement Point<br />New Building: Grain Mill<br />Major Research: Commerce<br />+" + this.waterMax + "  Maximum Water Progress<br />+" + this.woodMax + " Maximum Wood Progress<br />+" + this.stoneMax + " Maximum Stone Progress<br />+" + this.ironMax + " Maximum Iron Progress<br />+" + this.wheatMax + " Maximum Wheat Progress<br />+" + this.rate + " Maximum Capacity on All Resources</b>";
                 },
-                achPowerful: {
-                    name: "achPowerful",
-                    label: "Powerful",
-                    description: function () { return "You reached a <b>Base Click Power</b> of <b>200%</b>. Each one of your clicks is a mighty force to be reckoned with."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
+                type: "age",
+                waterMax: 70,
+                woodMax: 175,
+                stoneMax: 400,
+                ironMax: 800,
+                wheatMax: 15,
+                rate: 250,
+                resourceCost: {
+                    water: {
+                        base: 1900
+                    },
+                    wood: {
+                        base: 1700
+                    },
+                    stone: {
+                        base: 700
+                    },
+                    iron: {
+                        base: 150
+                    },
+                    wheat: {
+                        base: 2750
+                    }
                 },
-                achThirsty: {
-                    name: "achThirsty",
-                    label: "Thirsty",
-                    description: function () { return "Acquire your first <b>Water Fetcher</b>."; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
+                effect: function () {
+                    advanceAge(this, 0);
+                    unlock("grainMill", "upgWheatTap", "upgCommerce", "upgScarcity", "upgMetalwork", "upgMotivation", "upgStoneStorage", "upgFarmhouses", "upgHarvest", "upgIronBasket", "upgLanterns", "upgWaterTap3", "upgMasonry3", "upgStonework2", "advEcumenism");
+                    upgradeMaxValue("waterP", this.waterMax);
+                    upgradeMaxValue("woodP", this.woodMax);
+                    upgradeMaxValue("stoneP", this.stoneMax);
+                    upgradeMaxValue("ironP", this.ironMax);
+                    upgradeMaxValue("wheatP", this.wheatMax);
+                    upgradeMaxValue("water", this.rate);
+                    upgradeMaxValue("wood", this.rate);
+                    upgradeMaxValue("stone", this.rate);
+                    upgradeMaxValue("iron", this.rate);
+                    upgradeMaxValue("wheat", this.rate);
+                    achieve("achDarkTimes");
                 },
-                achHungry: {
-                    name: "achHungry",
-                    label: "Hungry",
-                    description: function () { return "Hire your first <b>Farmer</b>."; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
+                locked: true,
+                bought: false
+            },
+            upgRenaissance: {
+                name: "upgRenaissance",
+                label: "Renaissance",
+                description: function () {
+                    return "Enter the <b>Age of " + this.label + "</b>! With the endured hardships, your people develop deeper understanding of the world around them, leading to a revolution in their thinking. The <b>Renaissance</b> will lead to these changes:<b><br />" +
+                        "2 Advancement Points<br />Colonies<br />New Resource: Diamond<br />New Building: Jewelry<br />" + this.waterMax + "  Maximum Water Progress<br />" + this.woodMax + " Maximum Wood Progress<br />" + this.stoneMax + " Maximum Stone Progress<br />" + this.ironMax + " Maximum Iron Progress<br />" + this.wheatMax + " Maximum Wheat Progress<br />" + this.silverMax + " Maximum Silver Progress</b>";
                 },
-                achCraven: {
-                    name: "achCraven",
-                    label: "Craven",
-                    description: function () { return "Hire your first <b>Miner</b> without having a single <b>Water Fetcher</b> or <b>Lumberjack</b> under your employ. Why would you do this?"; },
-                    progress: function () { return (game.workers.waterFetcher.current - game.workers.waterFetcher.free) > 0 || (game.workers.lumberjack.current - game.workers.lumberjack.free) > 0 ? "You hired a water fetcher and/or a lumberjack." : "Miners: " + Math.min(game.workers.miner.current, 1) + "/1"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
+                type: "age",
+                waterMax: -20,
+                woodMax: -100,
+                stoneMax: -50,
+                ironMax: -400,
+                wheatMax: -10,
+                silverMax: -500,
+                resourceCost: {
+                    water: {
+                        base: 5000
+                    },
+                    wood: {
+                        base: 3500
+                    },
+                    stone: {
+                        base: 2500
+                    },
+                    iron: {
+                        base: 1000
+                    },
+                    wheat: {
+                        base: 5000
+                    },
+                    silver: {
+                        base: 150
+                    }
                 },
-                achSmithy: {
-                    name: "achSmithy",
-                    label: "Smithy",
-                    fullLabel: "Back to the Smithy with you",
-                    description: function () { return "Hire a total of <b>25 Ironsmiths</b>. Wait a minute, are you even paying these people?"; },
-                    progress: function () { return "Ironsmiths: " + Math.min(game.workers.ironsmith.current, 25) + "/25"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
+                effect: function () {
+                    advanceAge(this, 2);
+                    unlock("reset", "prestige", "diamond", "trdDiamond", "ruby", "jewelry", "upgSilverTap", "upgPrestigePoint", "upgAqueducts", "upgFineLumber", "upgHeavyMining", "upgBetterFoundries", "upgRestraint", "upgTreeCare", "upgFarmWork", "ldrGutenberg");
+                    upgradeMaxValue("waterP", this.waterMax);
+                    upgradeMaxValue("woodP", this.woodMax);
+                    upgradeMaxValue("stoneP", this.stoneMax);
+                    upgradeMaxValue("ironP", this.ironMax);
+                    upgradeMaxValue("wheatP", this.wheatMax);
+                    upgradeMaxValue("silverP", this.silverMax);
+                    tutorialMessage("prestige");
+                    finishTutorial();
+                    achieve("achScholar");
                 },
-                achMonk: {
-                    name: "achMonk",
-                    label: "Monk",
-                    description: function () { return "Hire a total of <b>25 Monks</b> and receive the first passive bonus granted by their pious fervor."; },
-                    progress: function () { return "Monks: " + Math.min(game.workers.monk.current, 25) + "/25"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
+                locked: true,
+                bought: false
+            },
+            upgRevolutionAge: {
+                name: "upgRevolutionAge",
+                label: "Age of Revolution",
+                description: function () {
+                    return "Enter the <b>" + this.label + "</b>! Unrest grows in your population and the people yearn for change. This will come at a cost, but perhaps you can make the endeavour worthwile with some patience. The <b>Age of Revolution</b> will lead to these changes:<b><br />" +
+                        "1 Advancement Point<br />Pumping System passive bonus (+10 Water/sec)<br />10% Worker Cost Increase<br />15% Building Cost Increase<br />Increased Silver Cost of Taxes<br />+" + prettify(this.diamondMax, 0, true) + "  Maximum Diamond Progress</b>";
                 },
-                achLight: {
-                    name: "achLight",
-                    label: "Light",
-                    fullLabel: "Let There Be Light",
-                    description: function () { return "Discover <b>Fire</b>."; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
+                type: "age",
+                colonies: 1,
+                diamondMax: 10000,
+                taxIncrease: 900,
+                workerIncrease: 0.1,
+                buildingIncrease: 0.15,
+                resourceCost: {
+                    water: {
+                        base: 250000
+                    },
+                    wood: {
+                        base: 100000
+                    },
+                    stone: {
+                        base: 50000
+                    },
+                    wheat: {
+                        base: 100000
+                    },
+                    silver: {
+                        base: 10000
+                    },
+                    diamond: {
+                        base: 1500
+                    }
                 },
-                achTheologian: {
-                    name: "achTheologian",
-                    label: "Theologian",
-                    fullLabel: "Theologian",
-                    description: function () { return "Research the <b>Theology</b> advancement."; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
+                effect: function () {
+                    advanceAge(this, 1);
+                    unlock("trdAdvancementPoint2");
+                    achieve("achRebel");
+                    buyPassive(getFromText("psvPumpingSystem"));
+                    upgradeWorkerCost(this.workerIncrease);
+                    upgradeBuildingCost(this.buildingIncrease);
+                    upgradeMaxValue("diamondP", this.diamondMax);
+                    upgradeTradeCost("trdTax", this.taxIncrease, "silver");
+                    upgradeTradeCost("trdPropertyTax", this.taxIncrease, "silver");
                 },
-                achBanker: {
-                    name: "achBanker",
-                    label: "Banker",
-                    description: function () { return "Discover the benefits of <b>Banking</b>."; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
-                },
-                achMasonry: {
-                    name: "achMasonry",
-                    label: "Going Somewhere",
-                    description: function () { return "Research <b>Masonry</b>. Time to get serious."; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
-                },
-                achTrader: {
-                    name: "achTrader",
-                    label: "Trader",
-                    description: function () { return "Research <b>Economics</b>. What are these shiny metals for anyway?"; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
-                },
-                achPureGreed: {
-                    name: "achPureGreed",
-                    label: "Pure Greed",
-                    description: function () { return "You conducted a <b>Tax</b> for a profit of <b>0 Gold</b> (before passive increases). Stop this madness."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
-                },
-                achGlitters: {
-                    name: "achGlitters",
-                    label: "Glitters",
-                    fullLabel: "All that glitters is not gold...",
-                    description: function () { return "You traded <b>Gold</b> for an <b>Achievement Point</b>. What else is money good for, really?"; },
-                    points: 0,
-                    hidden: true,
-                    achieved: false
-                },
-                achPolymath: {
-                    name: "achPolymath",
-                    label: "Polymath",
-                    description: function () { return "Perform a total of <b>100 Trades</b> and purchase a total of <b>100 Upgrades</b> in a single colony. Embody the art of micromanagement."; },
-                    progress: function () { return "Trades: " + Math.min(getAmountTrades(), 100) + "/100<br />Upgrades: " + Math.min(getAmountUpgrades(), 100) + "/100"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
-                },
-                achMetalCaster: {
-                    name: "achMetalCaster",
-                    label: "Metal Caster",
-                    description: function () { return "Build your first <b>Foundry</b>. Do you see where this is heading?"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
-                },
-                achForeman: {
-                    name: "achForeman",
-                    label: "Foreman",
-                    description: function () { return "Build an impressive total of <b>15 Stone Quarries</b>."; },
-                    progress: function () { return "Stone Quarries: " + Math.min(game.buildings.stoneQuarry.current, 15) + "/15"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
-                },
-                achWillOfThePeople: {
-                    name: "achWillOfThePeople",
-                    label: "Will of the People",
-                    description: function () { return "Build <b>20 Water Mills</b> and <b>20 Grain Mills</b> without having to resort to using any of the <b>Trades</b>."; },
-                    progress: function () { return getAmountTrades() > 0 ? "One or more Trades were made this colony." : "Water Mills: " + Math.min(game.buildings.waterMill.current, 20) + "/20<br />Grain Mills: " + Math.min(game.buildings.grainMill.current, 20) + "/20"; },
-                    points: 1,
-                    hidden: false,
-                    achieved: false
-                },
-                achSleeper: {
-                    name: "achSleeper",
-                    label: "The Sleeper",
-                    description: function () { return "My power of thought calls you, sleeper. Acquire your first <b>Passive Bonus</b>."; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
-                },
-                achInformed: {
-                    name: "achInformed",
-                    label: "Informed",
-                    description: function () { return "Recruit your first <b>Leader</b>. May you heed their advice."; },
-                    points: 0,
-                    hidden: false,
-                    achieved: false
-                },
-                achMathematician: {
-                    name: "achMathematician",
-                    label: "The Mathematician",
-                    description: function () { return "You have acquired <b>Pythagoras of Samos</b> as one of your counselors. A most impressive acquisition."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
-                },
-                achGreatOne: {
-                    name: "achGreatOne",
-                    label: "The Great One",
-                    description: function () { return "You have acquired <b>Alexander The Great</b> as one of your counselors. Your enemies should be afraid."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
-                },
-                achRepublic: {
-                    name: "achRepublic",
-                    label: "Republic",
-                    description: function () { return "You have acquired <b>Plato</b> as one of your counselors. Go forth and build a prosperous city."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
-                },
-                achSparta: {
-                    name: "achSparta",
-                    label: "Sparta",
-                    fullLabel: "This is Sparta",
-                    description: function () { return "You have acquired <b>Leonidas</b> as one of your counselors. That should kick your base click power up a notch."; },
-                    points: 1,
-                    hidden: true,
-                    achieved: false
-                }
+                locked: true,
+                bought: false
             }
-        };
-        return initData;
-    }
+        },
+        advancements: {
+            advTemperance: {
+                name: "advTemperance",
+                label: "Temperance",
+                parent: "upgStoneAge",
+                description: function () {
+                    return "Exercising restraint will pay off in the long run. Applies a <b>15%</b> cost reduction on all upgrades. This does not apply to <b>Age Upgrades</b>.";
+                },
+                advCost: 1,
+                rate: -0.15,
+                effect: function () { upgradeUpgradeCost(this.rate); unlock("ldrAlexander3"); },
+                locked: true,
+                bought: false
+            },
+            advFire: {
+                name: "advFire",
+                label: "Fire",
+                parent: "upgStoneAge",
+                description: function () { return "Major civilizational breakthrough that will grant <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>. This effect compounds with other clicking-related upgrades."; },
+                advCost: 1,
+                clickRate: 0.3,
+                effect: function () { upgradePlayerClickGain(this.clickRate); unlock("ldrAlexander3"); achieve("achLight"); },
+                locked: true,
+                bought: false
+            },
+            advWheel: {
+                name: "advWheel",
+                label: "Wheel",
+                parent: "upgStoneAge",
+                description: function () { return "This wonderful invention will allow you to gather <b>7.5%</b> more resources when completing a <b>Progress Bar</b>. This effect compounds with other upgrades."; },
+                advCost: 1,
+                rate: 0.075,
+                effect: function () { upgradePlayerParentGain(this.rate); unlock("ldrAlexander3");; },
+                locked: true,
+                bought: false
+            },
+            advSpear: {
+                name: "advSpear",
+                label: "Spear",
+                parent: "upgStoneAge",
+                description: function () { return "Through trial and error, you discover a deadly combination of sculpted wood and sharpened stone. Gain <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>."; },
+                advCost: 1,
+                clickRate: 0.15,
+                effect: function () { upgradePlayerClickGain(this.clickRate); unlock("advSword", "ldrLeonidas"); },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advSling: {
+                name: "advSling",
+                label: "Sling",
+                parent: "upgStoneAge",
+                description: function () { return "Discover a strange device that incentivizes your population in gathering stone. Gain <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>. Your miner will also gather <b>+" + this.rate + " Stone Progress per second</b>."; },
+                advCost: 1,
+                rate: 0.5,
+                clickRate: 0.1,
+                effect: function () { upgradePlayerClickGain(this.clickRate); upgradeWorkerRate("miner", this.rate); },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advPiety: {
+                name: "advPiety",
+                label: "Piety",
+                parent: "upgFeudalAge",
+                description: function () { return "Lead the way for your faithful and be rewarded with their devotion. Gain a <b>8%</b> cost reduction to <b>Workers</b>. This effect stacks with other worker cost reductions."; },
+                advCost: 1,
+                rate: -0.08,
+                effect: function () { upgradeWorkerCost(this.rate); },
+                locked: true,
+                bought: false
+            },
+            advEquestrianism: {
+                name: "advEquestrianism",
+                label: "Equestrianism",
+                parent: "upgFeudalAge",
+                description: function () { return "Your unparalleled ability to tame nature around you leads to increased benefits. Reduce the amount of <b>Progress</b> required for resources as follows:<b><br />Water: " + this.waterMax + "<br />Wood: " + this.woodMax + "<br />Stone: " + this.stoneMax + "<br />Iron: " + this.ironMax + "</b>"; },
+                advCost: 1,
+                waterMax: -5,
+                woodMax: -10,
+                stoneMax: -25,
+                ironMax: -100,
+                effect: function () {
+                    upgradeMaxValue("waterP", this.waterMax);
+                    upgradeMaxValue("woodP", this.woodMax);
+                    upgradeMaxValue("stoneP", this.stoneMax);
+                    upgradeMaxValue("ironP", this.ironMax);
+                },
+                locked: true,
+                bought: false
+            },
+            advPrintingPress: {
+                name: "advPrintingPress",
+                label: "Printing Press",
+                parent: "upgFeudalAge",
+                description: function () { return "This unique invention will not provide immediate benefits to you, but it will pave the way to the future. Unlocks <b>Additional Advancements</b> in the <b>Next Age</b>!"; },
+                advCost: 1,
+                effect: function () { unlock("advLiteracy", "advEngineering", "advEvangelism", "advArchitecture"); },
+                locked: true,
+                bought: false
+            },
+            advMonasticism: {
+                name: "advMonasticism",
+                label: "Monasticism",
+                parent: "upgFeudalAge",
+                description: function () {
+                    var desc = "Allow your workers to devote themselves to the pursuit of truth in exchange for various good works. Adds a <b>Monk</b> worker which will provide unique bonuses to your civilization the more you hire.";
+                    if (!this.bought) return desc;
+                    desc += "<br />Your Monks currently provide:<b>";
+                    if (game.workers.monk.current < 25) desc += "<br />No Bonus.";
+                    else desc += "<br />2% Cost Reduction to Buildings.";
+                    if (game.workers.monk.current >= 50) desc += "<br />6% Cumulative Cost Reduction to Churches for Water and Wood.";
+                    desc += "</b>";
+                    return desc;
+                },
+                advCost: 1,
+                effect: function () { unlock("monk"); },
+                canUnlock: function () { return game.player.colonies >= 5 && game.upgrades.upgFeudalAge.bought; },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advSword: {
+                name: "advSword",
+                label: "Sword",
+                parent: "upgFeudalAge",
+                description: function () { return "As metalwork becomes common practice among your population, your propensity for advanced weapons grows. Grants <b>" + prettify(this.clickRate * 100, 2, true) + "% more resource progress</b> when <b>clicking to gather resources</b>."; },
+                advCost: 1,
+                clickRate: 0.2,
+                effect: function () { upgradePlayerClickGain(this.clickRate); },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advFervor: {
+                name: "advFervor",
+                label: "Fervor",
+                parent: "upgDarkAge",
+                description: function () { return "A steadfast attitude and unwavering resolve can help you brave any storm. Applies a <b>" + prettify(-this.rate * 100, 2) + "%</b> cost reduction to <b>Buildings</b>. This effect stacks with other building cost reductions."; },
+                advCost: 1,
+                rate: -0.1,
+                effect: function () { upgradeBuildingCost(this.rate); },
+                locked: true,
+                bought: false
+            },
+            advIronWill: {
+                name: "advIronWill",
+                label: "Iron Will",
+                parent: "upgDarkAge",
+                description: function () { return "Demonstrate your willingness to go on. Your <b>Foundries</b> no longer cost any <b>Stone</b> to operate. This does not affect their current production rate."; },
+                advCost: 1,
+                rate: -0.5,
+                effect: function () { upgradeWorkerRate("foundry", this.rate); },
+                locked: true,
+                bought: false
+            },
+            advTheology: {
+                name: "advTheology",
+                label: "Theology",
+                parent: "upgDarkAge",
+                description: function () { return "Propagate your ideals to your population swiftly by appointing chosen preachers to guide the masses. Adds a <b>Church</b> building which will toll your workers but provide resources in exchange."; },
+                advCost: 1,
+                effect: function () { unlock("church"); achieve("achTheologian"); },
+                locked: true,
+                bought: false
+            },
+            advEcumenism: {
+                name: "advEcumenism",
+                label: "Ecumenism",
+                parent: "upgDarkAge",
+                description: function () { return "Unite your population in faith through reformations of your doctrines. Provides a passive, permanent gain of <b>+5 Wheat per second</b>."; },
+                advCost: 1,
+                effect: function () { buyPassive(getFromText("psvEcumenism")); },
+                canUnlock: function () { return game.player.colonies >= 8 && game.upgrades.upgDarkAge.bought; },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advLiteracy: {
+                name: "advLiteracy",
+                label: "Literacy",
+                parent: "upgDarkAge",
+                description: function () { return "Increased literacy rates among your workers allows them to develop more advanced techniques. Gain <b>10%</b> more resources when completing a <b>Progress Bar</b>. This effect stacks with the <b>Wheel</b> advancement."; },
+                advCost: 1,
+                rate: 0.1,
+                effect: function () { upgradePlayerParentGain(this.rate); },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advEngineering: {
+                name: "advEngineering",
+                label: "Engineering",
+                parent: "upgDarkAge",
+                description: function () { return "After much research, your workers come up with ways to improve your resource generation. Fundamentally redesign your <b>Water Mills</b> to add a cost of <b>" + Math.abs(this.woodMax) + " Wood per second</b> in exchange for a benefit of <b>+" + this.rate + " Water per second</b> each."; },
+                advCost: 1,
+                rate: 0.3,
+                woodMax: -0.1,
+                effect: function () { upgradeWorkerRate("waterMill", this.rate); addWorkerRate("waterMill", "wood", this.woodMax); },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advLogos: {
+                name: "advLogos",
+                label: "Logos",
+                parent: "upgRenaissance",
+                description: function () { return "Your use of reason grows through practice of the mind. After shedding their earthly needs, your <b>Miners</b> no longer cost any <b>Water</b> to work at their current rate."; },
+                advCost: 2,
+                rate: -0.1,
+                effect: function () { upgradeWorkerRate("miner", this.rate); },
+                locked: true,
+                bought: false
+            },
+            advGunpowder: {
+                name: "advGunpowder",
+                label: "Gunpowder",
+                parent: "upgRenaissance",
+                description: function () { return "A fine black powder that reacts strongly when ignited. Thanks to this technological wonder, <b>50% more resource progress</b> will be granted when <b>clicking to gather a resource</b>. This effect stacks with the <b>Fire</b> advancement."; },
+                advCost: 2,
+                rate: 0.5,
+                effect: function () { upgradePlayerClickGain(this.rate); },
+                locked: true,
+                bought: false
+            },
+            advSilverMastery: {
+                name: "advSilverMastery",
+                label: "Silver Mastery",
+                parent: "upgRenaissance",
+                description: function () { return "Total mastery over the art of silverwork allows you to significantly speed up the production of the shiny metal. Decreases the <b>Silver Progress</b> required to extract <b>Silver</b> by <b>" + Math.abs(this.rate) + "!</b>"; },
+                advCost: 2,
+                rate: -1000,
+                effect: function () { upgradeMaxValue("silverP", this.rate); },
+                locked: true,
+                bought: false
+            },
+            advMathematics: {
+                name: "advMathematics",
+                label: "Mathematics",
+                parent: "upgRenaissance",
+                description: function () { return "Advanced understanding of mathematical principles begin to arise in your population, paving the way to future improvements.  Applies a <b>20%</b> cost reduction on all upgrades. This does not apply to <b>Age Upgrades</b>."; },
+                advCost: 2,
+                rate: -0.2,
+                effect: function () {
+                    upgradeUpgradeCost(this.rate);
+                    if (game.player.colonies >= 7) unlock("ldrKepler");
+                    else if (game.player.colonies >= 4) unlock("ldrGalileo");
+                },
+                locked: true,
+                bought: false
+            },
+            advMercantilism: {
+                name: "advMercantilism",
+                label: "Mercantilism",
+                parent: "upgRenaissance",
+                description: function () { return "Major development in commerce allows you to perform <b>Additional Trades</b> to manipulate the market to your advantage."; },
+                advCost: 2,
+                effect: function () {
+                    unlock("trdWater2", "trdWood2", "trdStone2", "trdIron2", "trdWheat");
+                    if (game.player.colonies >= 4) unlock("ldrMagellan");
+                },
+                locked: true,
+                bought: false
+            },
+            advEvangelism: {
+                name: "advEvangelism",
+                label: "Evangelism",
+                parent: "upgRenaissance",
+                description: function () { return "The mass production and distribution of religious texts allows your population to spread their faith greatly, rallying even great figures to your cause. Allows you to hire <b>one additional leader</b>."; },
+                advCost: 2,
+                rate: 1,
+                effect: function () { upgradeMaxLeaders(this.rate); },
+                canUnlock: function () { return game.leaders.ldrGutenberg.bought && game.advancements.advPrintingPress.bought; },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advArchitecture: {
+                name: "advArchitecture",
+                label: "Architecture",
+                parent: "upgRenaissance",
+                description: function () { return "Research the lost art of the past to give it a new purpose. Your <b>Sawmills</b> will no longer cost any <b>Water</b> to operate."; },
+                advCost: 2,
+                rate: -0.2,
+                effect: function () { upgradeWorkerRate("sawmill", this.rate); },
+                canUnlock: function () { return game.leaders.ldrGutenberg.bought && game.advancements.advPrintingPress.bought; },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advValor: {
+                name: "advValor",
+                label: "Valor",
+                parent: "upgRevolutionAge",
+                description: function () { return "Instill your people with the will and fortitude to fight for what is right. Reduces the cost of all <b>Workers</b>, <b>Buildings</b> and <b>Upgrades</b> by <b>5%</b>."; },
+                advCost: 3,
+                rate: -0.05,
+                effect: function () { upgradeUpgradeCost(this.rate); upgradeWorkerCost(this.rate); upgradeBuildingCost(this.rate); },
+                locked: true,
+                bought: false
+            },
+            advNavigation: {
+                name: "advNavigation",
+                label: "Navigation",
+                parent: "upgRevolutionAge",
+                description: function () { return "Heavily invest in research navigational utilities to aid your bravest of explorers in going further than ever before. Unlocks <b>Additional Advancements</b> at the cost of a passive drain of <b>5 Wood per second</b>."; },
+                advCost: 3,
+                effect: function () { buyPassive(getFromText("psvNavigation")); unlock("advDominion", "advSteamEngine"); },
+                locked: true,
+                bought: false
+            },
+            advBanking: {
+                name: "advBanking",
+                label: "Banking",
+                parent: "upgRevolutionAge",
+                description: function () { return "Install a gold-backed monetary system to support the exchange of goods between your population. You will be granted a one-time payment of <b>" + prettify(this.rate, 0, true) + " Gold</b> upon acquiring this advancement."; },
+                advCost: 3,
+                rate: 100000,
+                effect: function () { gainGold(this.rate); achieve("achBanker"); },
+                locked: true,
+                bought: false
+            },
+            advIndependence: {
+                name: "advIndependence",
+                label: "Independence",
+                parent: "upgRevolutionAge",
+                description: function () { return "Declare yourself your own sovereign state. Your self-governance will passively grant you <b>" + this.rate + " Silver per second</b>. Additionally, you will gain <b>+" + this.maxRate + " Advancement Points</b> upon starting your next colony."; },
+                advCost: 3,
+                rate: 0.5,
+                maxRate: 2,
+                effect: function () { buyPassive(getFromText("psvIndependence")); game.player.nextAdvancementPoints += this.maxRate; unlock("ldrHancock"); },
+                locked: true,
+                bought: false
+            },
+            advBrotherhood: {
+                name: "advBrotherhood",
+                label: "Brotherhood",
+                parent: "upgRevolutionAge",
+                description: function () { return "Drive recruitment campaigns to bolster your number of workers. Immediately acquire <b>" + this.rate + " Ironsmiths</b> and <b>Millers</b> at no cost."; },
+                advCost: 3,
+                rate: 20,
+                effect: function () { buyWorker(getFromText("ironsmith"), this.rate, true); buyWorker(getFromText("miller"), this.rate, true); },
+                locked: true,
+                bought: false
+            },
+            advDominion: {
+                name: "advDominion",
+                label: "Dominion",
+                parent: "upgRevolutionAge",
+                description: function () { return "Fortify the stronghold of your empire in your colonies via various doctrines and guiding principles. Grants you <b>+" + this.rate + " Prestige Point</b> in your next colony."; },
+                rate: 1,
+                advCost: 3,
+                effect: function () { addPrestigePoints(this.rate); },
+                locked: true,
+                bought: false,
+                secret: true
+            },
+            advSteamEngine: {
+                name: "advSteamEngine",
+                label: "Steam Engine",
+                parent: "upgRevolutionAge",
+                description: function () {
+                    return "This revolutionary piece of versatile machinery will surely help drive your mining industry. Who knows what others uses it could find later on. Increases the resource progress gathering rate of your <b>Miners</b> by <b>+ "
+                        + this.stoneMax + " Stone Progress per second</b>, your <b>Ironsmiths</b> by <b>+" + this.ironMax + " Iron Progress per second</b> and your <b>Silversmiths</b> by <b>+" + this.stoneMax + " Silver Progress per second</b>.";
+                },
+                stoneMax: 5,
+                ironMax: 10,
+                advCost: 3,
+                effect: function () { upgradeWorkerRate("miner", this.stoneMax, "stoneP"); upgradeWorkerRate("ironsmith", this.ironMax, "ironP"); upgradeWorkerRate("silversmith", this.stoneMax, "silverP"); },
+                locked: true,
+                bought: false,
+                secret: true
+            }
+        },
+        prestiges: {
+            ptgSoftTap: {
+                name: "ptgSoftTap",
+                label: "Soft Tap",
+                type: "active",
+                description: function () { return "Step by step, you get stronger and manage to carry more resources yourself. Your base clicking power increases by an additional <b>10%</b> for each level."; },
+                rate: 0.1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                effect: function () { upgradePlayerClickGain(this.rate); },
+                bought: false
+            },
+            ptgWaterDancer: {
+                name: "ptgWaterDancer",
+                label: "Water Dancer",
+                type: "active",
+                description: function () { return "Focus on your mastery of water for increased specialized gains. You get <b>+" + this.rate + " more Water Progress per click</b> per level."; },
+                rate: 0.5,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                effect: function () { upgradeClickGain("waterP", this.rate); },
+                bought: false
+            },
+            ptgMechanicalClicker: {
+                name: "ptgMechanicalClicker",
+                label: "Mechanical Clicker",
+                type: "active",
+                description: function () {
+                    var desc = "This technological wonder will allow you to greatly facilitate resource gathering. Unlocks the ability to <b>Hold the mouse button down</b> in order to <b>Automatically gather</b> any resource.";
+                    if (this.level == 0) desc += " Auto-clicking will occur every <b>400ms</b>.";
+                    else if (this.level == 1) desc += " Auto-clicking rate will increase from every <b>400ms</b> to every <b>300ms</b>.";
+                    else if (this.level == 2) desc += " Auto-clicking rate will increase from every <b>300ms</b> to every <b>200ms</b>.";
+                    else desc += " Auto-clicking occurs every <b>200ms</b>."
+                    return desc;
+                },
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 3,
+                requirements: {
+                    ptgSoftTap: 2
+                },
+                effect: function (level) {
+                    if (level > 1) game.player.autoClick = 200;
+                    else if (level > 0) game.player.autoClick = 300;
+                    else game.player.autoClick = 400;
+                },
+                bought: false
+            },
+            ptgDruidry: {
+                name: "ptgDruidry",
+                label: "Druidry",
+                type: "active",
+                description: function () { return "Focus on your mastery of the forest for increased specialized gains. You get <b>+" + this.rate + " more Wood Progress per click</b> per level."; },
+                rate: 1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgSoftTap: 5
+                },
+                effect: function () { upgradeClickGain("woodP", this.rate); },
+                bought: false
+            },
+            ptgHeadStart: {
+                name: "ptgHeadStart",
+                label: "Head Start",
+                type: "active",
+                description: function () { return "Carry some resources over to your new colonies to drastically speed up the early stage of rebuilding. Provides <b>+" + this.rate + " Water, Wood and Stone</b> for each purchased level."; },
+                rate: 1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgSoftTap: 5,
+                    ptgWaterDancer: 1
+                },
+                effect: function () { gainResource(getFromText("water"), this.rate); gainResource(getFromText("wood"), this.rate); gainResource(getFromText("stone"), this.rate); },
+                bought: false
+            },
+            ptgFireDancer: {
+                name: "ptgFireDancer",
+                label: "Fire Dancer",
+                type: "active",
+                description: function () {
+                    var desc = "Attain mastery in the manipulation of fire. Automatically acquires the <b>Fire Advancement</b> for free.";
+                    if (this.level > 0) desc += " Additionally, cumulatively increases the base clicking power upgrade provided by <b>5%</b> for each level.";
+                    return desc;
+                },
+                rate: 0.05,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgWaterDancer: 5
+                },
+                effect: function (level) {
+                    var adv = game.advancements.advFire;
+                    if (adv.bought && level > 0) {
+                        upgradePlayerClickGain(this.rate);
+                        adv.clickRate += this.rate;
+                    } else {
+                        unlock("advancements", adv.name);
+                        buyAdvancement(adv, true);
+                    }
+                },
+                bought: false
+            },
+            ptgLoopClicking: {
+                name: "ptgLoopClicking",
+                label: "Loop Clicking",
+                type: "active",
+                description: function () { return "Revolution in resource progress tracking. When filling a <b>Resource Progress Bar</b>, instead of being reset to zero, the value past the maximum is <b>carried over</b>. If the bar would be filled more than once by the added value, resources are gathered more than once."; },
+                ptgCost: 2,
+                level: 0,
+                maxLevel: 1,
+                requirements: {
+                    ptgMechanicalClicker: 3
+                },
+                effect: function () { },
+                bought: false
+            },
+            ptgHarvester: {
+                name: "ptgHarvester",
+                label: "Harvester",
+                type: "active",
+                description: function () { return "Delve into the forbidden knowledge of agriculture. You get <b>+" + this.rate + " more Wheat Progress per click</b>  per level."; },
+                rate: 0.5,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgWaterDancer: 1,
+                    ptgDruidry: 3
+                },
+                effect: function () { upgradeClickGain("wheatP", this.rate); },
+                bought: false
+            },
+            ptgSmartTap: {
+                name: "ptgSmartTap",
+                label: "Smart Tap",
+                type: "active",
+                description: function () { return "The essence of inner strength resides in the wider variety of areas you can improve upon through perseverance. Each level grants you an additional <b>2% Base Click Power</b> as well as <b>1% Progress Completion Multiplier</b>."; },
+                rate: 0.02,
+                maxRate: 0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgSoftTap: 7,
+                    ptgHeadStart: 3
+                },
+                effect: function () { upgradePlayerClickGain(this.rate); upgradePlayerParentGain(this.maxRate); },
+                bought: false
+            },
+            ptgWeaponMaster: {
+                name: "ptgWeaponMaster",
+                label: "Weapon Master",
+                type: "active",
+                description: function () { return "The art of weaponry unfolds itself to you, allowing you greater clicking powers than previously thought possible. Each level unlocks an <b>additional Advancement</b> that affect your <b>Base Click Power</b>."; },
+                ptgCost: 2,
+                level: 0,
+                maxLevel: 2,
+                requirements: {
+                    ptgSoftTap: 3,
+                    ptgFireDancer: 2
+                },
+                effect: function (level) {
+                    if (level <= 0) unlock("advSling");
+                    else unlock("advSpear");
+                },
+                bought: false
+            },
+            ptgDoubleClicking: {
+                name: "ptgDoubleClicking",
+                label: "Double Clicking",
+                type: "active",
+                description: function () {
+                    var desc = "This mysterious artifact will occasionally boost your resource gathering. Will sometimes <b>double</b> the resource progress gathered when you click.";
+                    if (this.level == 0) desc += " Double Clicking will occur every <b>" + this.nextRate + " clicks</b>.";
+                    else if (this.level < 8) desc += " Double Clicking rate will increase from every <b>" + this.rate + " clicks</b> to every <b>" + this.nextRate + " clicks</b>.";
+                    else desc += " Double Clicking rate will occur every <b>" + this.rate + " clicks</b>.";
+                    return desc;
+                },
+                ptgCost: 1,
+                rate: 0,
+                nextRate: 50,
+                level: 0,
+                maxLevel: 8,
+                requirements: {
+                    ptgSoftTap: 4,
+                    ptgMechanicalClicker: 2
+                },
+                effect: function (level) {
+                    this.rate = this.nextRate;
+                    game.player.doubleClick = this.nextRate;
+                    this.nextRate -= (level >= 2 ? 5 : 10);
+                },
+                bought: false
+            },
+            ptgMason: {
+                name: "ptgMason",
+                label: "Mason",
+                type: "active",
+                description: function () { return "Focus on your mastery of the earth for increased specialized gains. You get <b>+" + this.rate + " more Stone Progress per click</b> per level."; },
+                rate: 2,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgWaterDancer: 2,
+                    ptgHarvester: 2
+                },
+                effect: function () { upgradeClickGain("stoneP", this.rate); },
+                bought: false
+            },
+            ptgLeader: {
+                name: "ptgLeader",
+                label: "Leader",
+                type: "passive",
+                description: function () { return "Become a mighty leader of men through sheer charisma. Reduces the cost of all <b>Workers</b> by <b>1%</b> (cumulative) for each level purchased."; },
+                rate: -0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                effect: function () { upgradeWorkerCost(this.rate); },
+                bought: false
+            },
+            ptgBuilder: {
+                name: "ptgBuilder",
+                label: "Builder",
+                type: "passive",
+                description: function () { return "Masonry and architecture come naturally to you. Reduces the cost of all <b>Buildings</b> by <b>1%</b> (cumulative) for each level purchased."; },
+                rate: -0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                effect: function () { upgradeBuildingCost(this.rate); },
+                bought: false
+            },
+            ptgTaxman: {
+                name: "ptgTaxman",
+                label: "Taxman",
+                type: "passive",
+                description: function () { return "Each tax exerted on your population passively grants an additional <b>+" + this.rate + " Gold</b> for each level. The gain is added after calculating the final tax amount."; },
+                rate: 5,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                effect: function () { upgradeTaxPassiveGold(this.rate); },
+                bought: false
+            },
+            ptgResearch: {
+                name: "ptgResearch",
+                label: "Research",
+                type: "passive",
+                description: function () {
+                    var desc = "Massively invest in heavy research to prop up every future colony with a significant starting advantage. Reveals and makes available for purchase the basic <b>Advancements</b> tied to the following ages:<b><br />Stone Age";
+                    if (this.level > 0) desc += "<br />Feudal Age";
+                    if (this.level > 1) desc += "<br />Dark Age";
+                    desc += "</b>";
+                    return desc;
+                },
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 3,
+                requirements: {
+                    ptgLeader: 5,
+                    ptgBuilder: 5
+                },
+                effect: function (level) {
+                    unlock("advancements", "advTemperance", "advFire", "advWheel");
+                    if (level > 0) unlock("advPiety", "advEquestrianism", "advPrintingPress");
+                    if (level > 1) unlock("advFervor", "advIronWill", "advTheology");
+                },
+                bought: false
+            },
+            ptgFetching: {
+                name: "ptgFetching",
+                label: "Fetching",
+                type: "passive",
+                description: function () { return "Inspire even the lowest of workers to devote themselves to the common good. Each <b>Water Fetcher</b> provides an additional <b>+" + this.rate + " Water Progress per second</b> for each level."; },
+                rate: 0.1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgLeader: 10
+                },
+                effect: function () { upgradeWorkerRate("waterFetcher", this.rate); },
+                bought: false
+            },
+            ptgMilling: {
+                name: "ptgMilling",
+                label: "Milling",
+                type: "passive",
+                description: function () { return "Sharpen your understanding of overall structures for long-term benefits. Reduces the cumulative cost increase rate of <b>Wood</b> for each <b>Water Mill</b> purchased by <b>3%</b> per level."; },
+                rate: -0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgBuilder: 10
+                },
+                effect: function () { upgradeWorkerCostRate("waterMill", "wood", this.rate); },
+                bought: false
+            },
+            ptgEconomist: {
+                name: "ptgEconomist",
+                label: "Economist",
+                type: "passive",
+                description: function () { return "Your long-standing experience of civilization building grants you knowledge of how to maximize revenue. For each level, gain <b>1%</b> more resources every time you complete a <b>Progress Bar</b>."; },
+                rate: 0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgLeader: 3,
+                    ptgBuilder: 3,
+                    ptgTaxman: 5
+                },
+                effect: function () { upgradePlayerParentGain(this.rate); },
+                bought: false
+            },
+            ptgHeroism: {
+                name: "ptgHeroism",
+                label: "Heroism",
+                type: "passive",
+                description: function () { return "Your greatness of spirit grows and draws the attention of more important people. Each level invested allows you to hire <b>an additional Leader</b> per colony."; },
+                rate: 1,
+                ptgCost: 2,
+                level: 0,
+                maxLevel: 2,
+                requirements: {
+                    ptgLeader: 8,
+                    ptgBuilder: 8,
+                    ptgResearch: 2
+                },
+                effect: function () { upgradeMaxLeaders(this.rate); },
+                bought: false
+            },
+            ptgLumberer: {
+                name: "ptgLumberer",
+                label: "Lumberer",
+                type: "passive",
+                description: function () { return "Your connections with the people reach far out wide, even to the outskirts of the forest. Each level provides <b>+" + this.rate + " Free Lumberjack</b> to you."; },
+                rate: 1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgFetching: 3
+                },
+                effect: function () { buyWorker("lumberjack", this.rate, true); },
+                bought: false
+            },
+            ptgEngineer: {
+                name: "ptgEngineer",
+                label: "Engineer",
+                type: "passive",
+                description: function () {
+                    var desc = "Your growing experience with construction techniques start to reap benefits. The following advancements are made available at the start of each colony:<b><br />Engineering";
+                    if (this.level > 0) desc += "<br />Iron Will";
+                    if (this.level > 1) desc += "<br />Fervor";
+                    if (this.level > 2) desc += " (+2% Effectiveness)";
+                    desc += "</b>";
+                    return desc;
+                },
+                rate: 1,
+                maxRate: -0.02,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 4,
+                requirements: {
+                    ptgMilling: 3
+                },
+                effect: function (level) {
+                    unlock("advancements", "advEngineering");
+                    if (level > 0) unlock("advIronWill");
+                    if (level > 1) unlock("advFervor");
+                    if (level > 2) {
+                        var adv = game.advancements.advFervor;
+                        adv.rate += this.maxRate;
+                        if (adv.bought) upgradeBuildingCost(this.maxRate);
+                    }
+                },
+                bought: false
+            },
+            ptgMerchant: {
+                name: "ptgMerchant",
+                label: "Merchant",
+                type: "passive",
+                description: function () {
+                    var desc = "Your ability to turn a profit from thin air is most impressive. Start each colony with the ability to make the following trades:<b><br />Advancement Point";
+                    if (this.level > 0) desc += "<br />Advancement Point II";
+                    desc += "</b>"
+                    return desc;
+                },
+                rate: 1,
+                ptgCost: 2,
+                level: 0,
+                maxLevel: 2,
+                requirements: {
+                    ptgTaxman: 10,
+                    ptgEconomist: 1
+                },
+                effect: function (level) {
+                    if (level <= 0) unlock("trdAdvancementPoint");
+                    else unlock("trdAdvancementPoint", "trdAdvancementPoint2");
+                },
+                bought: false
+            },
+            ptgResolve: {
+                name: "ptgResolve",
+                label: "Resolve",
+                type: "passive",
+                description: function () {
+                    return "Nerves of steel are meant to withstand the storm. For each level, gain an additional <b>2.5%</b> each time a resource progress is completed, at the cost of <b>5%</b> of your base click power. Your current <b>Resolve</b> provides you:<b><br />"
+                        + prettify(this.maxRate * this.level * 100, 2) + "% Progress Completion Multiplier<br />" + prettify(this.rate * this.level * 100, 2) + "% Base Click Power</b>";
+                },
+                rate: -0.05,
+                maxRate: 0.025,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgResearch: 3
+                },
+                effect: function () { upgradePlayerClickGain(this.rate); upgradePlayerParentGain(this.maxRate); },
+                bought: false
+            },
+            ptgWoodMinimalism: {
+                name: "ptgWoodMinimalism",
+                label: "Wood Minimalism",
+                type: "other",
+                description: function () { return "Reduces the workload of wood gathering through unconventional methods. Each level increases the minimum threshold of <b>Wood Progress</b> by <b>+" + this.rate + "</b>."; },
+                rate: 1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                effect: function () { upgradeMinValue("woodP", this.rate); },
+                bought: false
+            },
+            ptgOpportunist: {
+                name: "ptgOpportunist",
+                label: "Opportunist",
+                type: "other",
+                description: function () { return "A bit of creativity goes a long way. Increases the cost of <b>Workers</b> and <b>Buildings</b> by <b>1%</b> in exchange for <b>2%</b> more resources when completing a progress bar. Cumulates every level."; },
+                rate: 0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                effect: function () { upgradeWorkerCost(this.rate); upgradeBuildingCost(this.rate); upgradePlayerParentGain(this.rate * 2); },
+                bought: false
+            },
+            ptgInvestment: {
+                name: "ptgInvestment",
+                label: "Investment",
+                type: "other",
+                description: function () { return "Temporary setbacks can sometimes result in future profits. Does nothing now, but provides you with <b>+" + this.rate + " Prestige Points</b> in your next colony every level. This effect only applies once."; },
+                rate: 2,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                effect: function () { addPrestigePoints(this.rate); },
+                oneTime: true,
+                bought: false
+            },
+            ptgAdvanced: {
+                name: "ptgAdvanced",
+                label: "Advanced",
+                type: "other",
+                description: function () { return "Learn from new experiences to grow stronger every time you settle a new colony. Gain <b>" + this.rate + " Advancement Points</b> now and everytime you start a new colony."; },
+                rate: 1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgInvestment: 3
+                },
+                effect: function () { addAdvancementPoints(this.rate); },
+                bought: false
+            },
+            ptgStoneMinimalism: {
+                name: "ptgStoneMinimalism",
+                label: "Stone Minimalism",
+                type: "other",
+                description: function () { return "Reduces the workload of stone gathering through unconventional methods. Each level increases the minimum threshold of <b>Stone Progress</b> by <b>+" + this.rate + "</b>."; },
+                rate: 2,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgWoodMinimalism: 1
+                },
+                effect: function () { upgradeMinValue("stoneP", this.rate); },
+                bought: false
+            },
+            ptgMaverick: {
+                name: "ptgMaverick",
+                label: "Maverick",
+                type: "other",
+                description: function () { return "Reckless actions can lead to a good outcome with proper insight. Decreases the resources gained when completing a progress bar by <b>1%</b> in exchange of a <b>5%</b> increase in base click power. Cumulates every level."; },
+                rate: 0.01,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                effect: function () { upgradePlayerParentGain(-this.rate); upgradePlayerClickGain(this.rate * 5); },
+                bought: false
+            },
+            ptgHasty: {
+                name: "ptgHasty",
+                label: "Hasty",
+                type: "other",
+                description: function () {
+                    var desc = "No time to waste. For every colony, converts a <b>Prestige Point per level</b> from a future one to a present one. If you have no pending prestige points, the bonus is applied as soon as you acquire one.";
+                    if (this.level > 0) desc += "<br />You currently have <b>" + game.player.convertPrestiges + " Hasty Points</b> unused this colony.";
+                    return desc;
+                },
+                rate: 1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgInvestment: 1
+                },
+                effect: function () {
+                    if (game.player.nextPrestigePoints >= 1) {
+                        addPrestigePoints(-this.rate);
+                        addPrestigePoints(this.rate, true);
+                    } else {
+                        game.player.convertPrestiges += this.rate;
+                    }
+                },
+                bought: false
+            },
+            ptgHoarding: {
+                name: "ptgHoarding",
+                label: "Hoarding",
+                type: "other",
+                description: function () { return "Some are simply unable to let go of their hard-earned riches. When creating a new colony, keep <b>" + prettify(this.rate * (this.level < this.maxLevel ? this.level + 1 : this.level) * 100, 0, true) + "%</b> of your current amount of <b>Gold</b>." },
+                rate: 0.1,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 5,
+                requirements: {
+                    ptgAdvanced: 2
+                },
+                effect: function () { upgradePlayerGoldPrestige(this.rate); },
+                bought: false
+            },
+            ptgIronMinimalism: {
+                name: "ptgIronMinimalism",
+                label: "Iron Minimalism",
+                type: "other",
+                description: function () { return "Reduces the workload of iron gathering through unconventional methods. Each level increases the minimum threshold of <b>Iron Progress</b> by <b>+" + this.rate + "</b>."; },
+                rate: 30,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgWoodMinimalism: 4,
+                    ptgStoneMinimalism: 2
+                },
+                effect: function () { upgradeMinValue("ironP", this.rate); },
+                bought: false
+            },
+            ptgHaggler: {
+                name: "ptgHaggler",
+                label: "Haggler",
+                type: "other",
+                description: function () { return "You become proficient at arguing your way to victory. Reduces the overall cost of <b>Workers</b>, <b>Buildings</b> AND <b>Upgrades</b> by <b>1%</b> at the cost of <b>5%</b> of your base click power. This cumulates every level."; },
+                rate: -0.01,
+                maxRate: -0.05,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgOpportunist: 5
+                },
+                effect: function () { upgradeWorkerCost(this.rate); upgradeBuildingCost(this.rate); upgradeUpgradeCost(this.rate); upgradePlayerClickGain(this.maxRate); },
+                bought: false
+            },
+            ptgWisdom: {
+                name: "ptgWisdom",
+                label: "Wisdom",
+                type: "other",
+                description: function () { return "Your incredibly resilient mind unravels the mysteries of time better than anyone else by now. Cumulatively decreases the cost of <b>Age Upgrades</b> by <b>2%</b> for every level acquired."; },
+                rate: -0.02,
+                ptgCost: 1,
+                level: 0,
+                maxLevel: 10,
+                requirements: {
+                    ptgHasty: 5
+                },
+                effect: function () { upgradeUpgradeCost(this.rate, true); },
+                bought: false
+            },
+            ptgColonist: {
+                name: "ptgColonist",
+                label: "Colonist",
+                type: "other",
+                description: function () { return "Excel in the art of precipitating the development of your colonies. Makes the <b>Dominion</b> advancement available for purchase now and at the start of every colony."; },
+                ptgCost: 2,
+                level: 0,
+                maxLevel: 1,
+                requirements: {
+                    ptgMaverick: 5,
+                    ptgHoarding: 4
+                },
+                effect: function () { unlock("advancements", "advDominion"); },
+                bought: false
+            }
+        },
+        achievements: {
+            achColonist: {
+                name: "achColonist",
+                label: "Colonist",
+                description: function () { return "You ventured and built your first the <b>Colony</b>."; },
+                points: 2,
+                hidden: true,
+                achieved: false
+            },
+            achPioneer: {
+                name: "achPioneer",
+                label: "Pioneer",
+                description: function () { return "Your influence and power knows no bounds. You built <b>5 Colonies</b> without breaking a sweat."; },
+                points: 2,
+                hidden: true,
+                achieved: false
+            },
+            achLuminary: {
+                name: "achLuminary",
+                label: "Luminary",
+                description: function () { return "All men shall bow to you. You extended the might of your empire to a total of <b>10 Colonies</b>."; },
+                points: 3,
+                hidden: true,
+                achieved: false
+            },
+            achPatrician: {
+                name: "achPatrician",
+                label: "Patrician",
+                description: function () { return "The breadth and reach of your influence is immeasurable. Your empire now spawns a sprawling total of <b>30 Colonies</b>."; },
+                points: 3,
+                hidden: true,
+                achieved: false
+            },
+            achCaveman: {
+                name: "achCaveman",
+                label: "Caveman",
+                description: function () { return "You reached the <b>Stone Age</b> after banging some stones together. Very impressive."; },
+                points: 0,
+                hidden: true,
+                achieved: false
+            },
+            achLord: {
+                name: "achLord",
+                label: "Lord",
+                description: function () { return "You reached the <b>Feudal Age</b>. Mercy mild upon your kingdom."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achDarkTimes: {
+                name: "achDarkTimes",
+                label: "Dark Times",
+                fullLabel: "Dark Times Ahead...",
+                description: function () { return "Oh brave one, you have reached the <b>Dark Age</b>. Best of luck in this upcoming trial."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achScholar: {
+                name: "achScholar",
+                label: "Scholar",
+                description: function () { return "You lead your realm to the age of the <b>Renaissance</b>. You should be proud."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achRebel: {
+                name: "achRebel",
+                label: "Rebel",
+                description: function () { return "You reached the <b>Age of Revolution</b>. Go forth and forge your own destiny."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achBeginner: {
+                name: "achBeginner",
+                label: "Beginner",
+                description: function () { return "The only way to craft your empire, click by click. Reach <b>100 Clicks</b>."; },
+                progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 100), 0, true) + "/100"; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achApprentice: {
+                name: "achApprentice",
+                label: "Apprentice",
+                description: function () { return "Are you getting somewhere yet? Reach <b>1000 Clicks</b>."; },
+                progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 1000), 0, true) + "/1000"; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achJourneyman: {
+                name: "achJourneyman",
+                label: "Journeyman",
+                description: function () { return "The real clicker is the friends we make along the way. Reach <b>10 000 Clicks</b>."; },
+                progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 10000), 0, true) + "/10K"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achExpert: {
+                name: "achExpert",
+                label: "Expert",
+                description: function () { return "No amount of prestige points can cure your carpal tunnel syndrome. Reach <b>100 000 Clicks</b>."; },
+                progress: function () { return "Clicks: " + prettify(Math.min(game.player.totalClicks, 100000), 0, true) + "/100K"; },
+                points: 2,
+                hidden: false,
+                achieved: false
+            },
+            achPowerful: {
+                name: "achPowerful",
+                label: "Powerful",
+                description: function () { return "You reached a <b>Base Click Power</b> of <b>200%</b>. Each one of your clicks is a mighty force to be reckoned with."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achThirsty: {
+                name: "achThirsty",
+                label: "Thirsty",
+                description: function () { return "Acquire your first <b>Water Fetcher</b>."; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achHungry: {
+                name: "achHungry",
+                label: "Hungry",
+                description: function () { return "Hire your first <b>Farmer</b>."; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achCraven: {
+                name: "achCraven",
+                label: "Craven",
+                description: function () { return "Hire your first <b>Miner</b> without having a single <b>Water Fetcher</b> or <b>Lumberjack</b> under your employ. Why would you do this?"; },
+                progress: function () { return (game.workers.waterFetcher.current - game.workers.waterFetcher.free) > 0 || (game.workers.lumberjack.current - game.workers.lumberjack.free) > 0 ? "You hired a water fetcher and/or a lumberjack." : "Miners: " + Math.min(game.workers.miner.current, 1) + "/1"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achSmithy: {
+                name: "achSmithy",
+                label: "Smithy",
+                fullLabel: "Back to the Smithy with you",
+                description: function () { return "Hire a total of <b>25 Ironsmiths</b>. Wait a minute, are you even paying these people?"; },
+                progress: function () { return "Ironsmiths: " + Math.min(game.workers.ironsmith.current, 25) + "/25"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achMonk: {
+                name: "achMonk",
+                label: "Monk",
+                description: function () { return "Hire a total of <b>25 Monks</b> and receive the first passive bonus granted by their pious fervor."; },
+                progress: function () { return "Monks: " + Math.min(game.workers.monk.current, 25) + "/25"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achLight: {
+                name: "achLight",
+                label: "Light",
+                fullLabel: "Let There Be Light",
+                description: function () { return "Discover <b>Fire</b>."; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achTheologian: {
+                name: "achTheologian",
+                label: "Theologian",
+                fullLabel: "Theologian",
+                description: function () { return "Research the <b>Theology</b> advancement."; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achBanker: {
+                name: "achBanker",
+                label: "Banker",
+                description: function () { return "Discover the benefits of <b>Banking</b>."; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achMasonry: {
+                name: "achMasonry",
+                label: "Going Somewhere",
+                description: function () { return "Research <b>Masonry</b>. Time to get serious."; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achTrader: {
+                name: "achTrader",
+                label: "Trader",
+                description: function () { return "Research <b>Economics</b>. What are these shiny metals for anyway?"; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achPureGreed: {
+                name: "achPureGreed",
+                label: "Pure Greed",
+                description: function () { return "You conducted a <b>Tax</b> for a profit of <b>0 Gold</b> (before passive increases). Stop this madness."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achGlitters: {
+                name: "achGlitters",
+                label: "Glitters",
+                fullLabel: "All that glitters is not gold...",
+                description: function () { return "You traded <b>Gold</b> for an <b>Achievement Point</b>. What else is money good for, really?"; },
+                points: 0,
+                hidden: true,
+                achieved: false
+            },
+            achPolymath: {
+                name: "achPolymath",
+                label: "Polymath",
+                description: function () { return "Perform a total of <b>100 Trades</b> and purchase a total of <b>100 Upgrades</b> in a single colony. Embody the art of micromanagement."; },
+                progress: function () { return "Trades: " + Math.min(getAmountTrades(), 100) + "/100<br />Upgrades: " + Math.min(getAmountUpgrades(), 100) + "/100"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achMetalCaster: {
+                name: "achMetalCaster",
+                label: "Metal Caster",
+                description: function () { return "Build your first <b>Foundry</b>. Do you see where this is heading?"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achForeman: {
+                name: "achForeman",
+                label: "Foreman",
+                description: function () { return "Build an impressive total of <b>15 Stone Quarries</b>."; },
+                progress: function () { return "Stone Quarries: " + Math.min(game.buildings.stoneQuarry.current, 15) + "/15"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achWillOfThePeople: {
+                name: "achWillOfThePeople",
+                label: "Will of the People",
+                description: function () { return "Build <b>20 Water Mills</b> and <b>20 Grain Mills</b> without having to resort to using any of the <b>Trades</b>."; },
+                progress: function () { return getAmountTrades() > 0 ? "One or more Trades were made this colony." : "Water Mills: " + Math.min(game.buildings.waterMill.current, 20) + "/20<br />Grain Mills: " + Math.min(game.buildings.grainMill.current, 20) + "/20"; },
+                points: 1,
+                hidden: false,
+                achieved: false
+            },
+            achSleeper: {
+                name: "achSleeper",
+                label: "The Sleeper",
+                description: function () { return "My power of thought calls you, sleeper. Acquire your first <b>Passive Bonus</b>."; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achInformed: {
+                name: "achInformed",
+                label: "Informed",
+                description: function () { return "Recruit your first <b>Leader</b>. May you heed their advice."; },
+                points: 0,
+                hidden: false,
+                achieved: false
+            },
+            achMathematician: {
+                name: "achMathematician",
+                label: "The Mathematician",
+                description: function () { return "You have acquired <b>Pythagoras of Samos</b> as one of your counselors. A most impressive acquisition."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achGreatOne: {
+                name: "achGreatOne",
+                label: "The Great One",
+                description: function () { return "You have acquired <b>Alexander The Great</b> as one of your counselors. Your enemies should be afraid."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achRepublic: {
+                name: "achRepublic",
+                label: "Republic",
+                description: function () { return "You have acquired <b>Plato</b> as one of your counselors. Go forth and build a prosperous city."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            },
+            achSparta: {
+                name: "achSparta",
+                label: "Sparta",
+                fullLabel: "This is Sparta",
+                description: function () { return "You have acquired <b>Leonidas</b> as one of your counselors. That should kick your base click power up a notch."; },
+                points: 1,
+                hidden: true,
+                achieved: false
+            }
+        }
+    };
+    return initData;
+}
 
-    var game = newGame();
+var game = newGame();
