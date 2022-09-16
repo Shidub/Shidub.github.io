@@ -252,6 +252,32 @@ function newGame() {
                 isActive: false,
                 locked: true
             }
+            ruby: {
+                name: "Ruby",
+                label: "Ruby",
+                description: "A rare gem of great value. Though its stunnings aesthetic properties are key to its popularity, it may find its proper use yet with a bit of work.",
+                current: 0,
+                min: 0,
+                max: 1000,
+                clickGain: 1,
+                isActive: false,
+                locked: true
+            },
+            rubyP: {
+                name: "RubyProgress",
+                label: "Ruby Progress",
+                current: 0,
+                min: 0,
+                max: 10000,
+                parent: {
+                    ruby: {
+                        gain: 50
+                    }
+                },
+                clickGain: 1,
+                isActive: false,
+                locked: true
+            }
         },
         workers: {
             waterFetcher: {
@@ -3715,7 +3741,7 @@ function newGame() {
                 },
                 effect: function () {
                     advanceAge(this, 2);
-                    unlock("reset", "prestige", "diamond", "trdDiamond", "jewelry", "upgSilverTap", "upgPrestigePoint", "upgAqueducts", "upgFineLumber", "upgHeavyMining", "upgBetterFoundries", "upgRestraint", "upgTreeCare", "upgFarmWork", "ldrGutenberg");
+                    unlock("reset", "prestige", "diamond", "trdDiamond", "ruby", "jewelry", "upgSilverTap", "upgPrestigePoint", "upgAqueducts", "upgFineLumber", "upgHeavyMining", "upgBetterFoundries", "upgRestraint", "upgTreeCare", "upgFarmWork", "ldrGutenberg");
                     upgradeMaxValue("waterP", this.waterMax);
                     upgradeMaxValue("woodP", this.woodMax);
                     upgradeMaxValue("stoneP", this.stoneMax);
