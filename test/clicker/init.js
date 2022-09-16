@@ -251,7 +251,7 @@ function newGame() {
                 clickGain: 1,
                 isActive: false,
                 locked: true
-            }
+            },
             ruby: {
                 name: "Ruby",
                 label: "Ruby",
